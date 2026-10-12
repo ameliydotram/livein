@@ -385,6 +385,8 @@ body:not(.no-nav) #app{padding-bottom:110px}
 .pvx{background:#ffffff1f;border:0;color:#fff;width:38px;height:38px;border-radius:50%;font-size:17px;cursor:pointer}
 .pvimg{flex:1;display:grid;place-items:center;padding:4px 10px 24px;min-height:0}.pvimg img{max-width:100%;max-height:100%;border-radius:16px;object-fit:cover;pointer-events:none;transition:transform .15s}
 @keyframes fi{from{opacity:0}}
+.stamp.super{left:50%;top:auto;bottom:38%;color:#38bdf8;transform:translateX(-50%) rotate(-8deg);white-space:nowrap;font-size:24px;box-shadow:0 0 18px #38bdf866}
+.slb{position:absolute;top:14px;right:14px;background:#0ea5e9;color:#fff;font-size:12px;font-weight:700;padding:5px 10px;border-radius:12px}
 
 </style>
 </head><body>
@@ -459,9 +461,9 @@ window.LIVEIN_DATA.restaurants = [
 (() => {
 const D = window.LIVEIN_DATA, $ = s => document.querySelector(s), app = $('#app');
 const MEM = {}; const ls = (k, v) => { try { if (v === undefined) return JSON.parse(localStorage.getItem('livein_' + k) || 'null'); localStorage.setItem('livein_' + k, JSON.stringify(v)); } catch (e) { if (v === undefined) return MEM[k] === undefined ? null : MEM[k]; MEM[k] = v; } };
-const S = { idx: ls('idx') || 0, history: [], matches: ls('matches') || [], chats: ls('chats') || {}, city: 'Bangalore', filter: null, q: '', blocked: ls('blocked') || [], unmatched: ls('unmatched') || [], profile: ls('profile') || {}, cine: { city: 'Kochi', day: 0, theatre: null, time: null, qty: 2 }, ticket: null,
+const S = { idx: ls('idx') || 0, history: [], matches: ls('matches') || [], chats: ls('chats') || {}, city: 'Bangalore', filter: null, q: '', blocked: ls('blocked') || [], supers: ls('supers') || [], unmatched: ls('unmatched') || [], profile: ls('profile') || {}, cine: { city: 'Kochi', day: 0, theatre: null, time: null, qty: 2 }, ticket: null,
   ho: { city: 'Kochi', inDate: null, nights: 1, guests: 2 }, stay: null, tbl: { city: 'Kochi', cz: null, day: 0, slot: null, guests: 2, rid: null }, prefs: ls('prefs') || { lookingFor: 'Co-living', budget: 16000, city: 'Bangalore', habits: 'Early riser, tidy' } };
-const save = () => { ls('idx', S.idx); ls('matches', S.matches); ls('chats', S.chats); ls('blocked', S.blocked); ls('unmatched', S.unmatched); };
+const save = () => { ls('idx', S.idx); ls('matches', S.matches); ls('chats', S.chats); ls('blocked', S.blocked); ls('supers', S.supers); ls('unmatched', S.unmatched); };
 const P = id => D.people.find(p => p.id === id);
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const now = () => new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
@@ -552,12 +554,12 @@ const R = {
   swipe() {
     const left = deckList().slice(S.idx);
     const cards = left.length ? left.slice(0, 2).reverse().map((p, i, a) => `<div class="pcard" data-id="${p.id}" ${i < a.length - 1 ? 'style="transform:scale(.96) translateY(8px);opacity:.6"' : ''}>
-      <img src="${p.photo}" alt="${p.name}" draggable="false"><div class="stamp like">LIKE</div><div class="stamp nope">NOPE</div>
+      <img src="${p.photo}" alt="${p.name}" draggable="false"><div class="stamp like">LIKE</div><div class="stamp nope">NOPE</div><div class="stamp super">SUPER LIKE</div>${S.supers.includes(p.id) ? '<span class="slb">★ Super liked</span>' : ''}
       <div class="info">${idTags(p)}<h3>${p.name}, ${p.age} ${p.verified ? I.verified : ''}</h3>${metaRows(p)}${chips(p)}</div></div>`).join('')
       : `<div class="pcard empty"><div><h3>You're all caught up</h3><p class="mrow" style="justify-content:center">Check back later for new people.</p><br><button class="btn pill" id="reset">Start over</button></div></div>`;
     return [`<div class="hdr">${LOGO('sm')}<div class="hic"><a href="#matches" aria-label="Matches">${I.sliders2}</a></div></div>
     <div class="deck" id="deck">${cards}</div>
-    <div class="actions"><button class="act" id="undo" aria-label="Undo">${I.undo}</button><button class="act big x" id="nope" aria-label="Pass">${I.x}</button><button class="act big h" id="like" aria-label="Like">${I.heart}</button><button class="act" id="star" aria-label="Super like">${I.star}</button></div>`, null, bindSwipe];
+    <div class="actions"><button class="act" id="undo" aria-label="Repeat last swipe" title="Repeat">${I.undo}</button><button class="act big x" id="nope" aria-label="Pass">${I.x}</button><button class="act big h" id="like" aria-label="Like">${I.heart}</button><button class="act" id="star" aria-label="Super like">${I.star}</button></div>`, null, bindSwipe];
   },
   profile(id) {
     const p = P(id);
@@ -925,16 +927,18 @@ function endCall(log) {
 function decide(dir) {
   const p = deckList()[S.idx]; if (!p) return;
   const el = document.querySelector(`.pcard[data-id="${p.id}"]`);
-  if (el) { el.style.transition = 'transform .35s'; el.style.transform = `translateX(${dir === 'nope' ? -500 : 500}px) rotate(${dir === 'nope' ? -25 : 25}deg)`; }
+  if (dir === 'star') { if (!S.supers.includes(p.id)) S.supers.push(p.id); save(); const st = el && el.querySelector('.stamp.super'); if (st) st.style.opacity = 1; }
+  const fly = () => { if (el) { el.style.transition = 'transform .35s'; el.style.transform = dir === 'star' ? 'translateY(-900px) rotate(-6deg)' : `translateX(${dir === 'nope' ? -500 : 500}px) rotate(${dir === 'nope' ? -25 : 25}deg)`; } };
+  dir === 'star' ? setTimeout(fly, 450) : fly();
   S.history.push(S.idx); S.idx++; save();
   setTimeout(() => {
     if (dir !== 'nope' && (p.likesYou || dir === 'star')) { const m = p.id === 'diya' ? 'arjun' : p.id; if (!S.matches.includes(m)) S.matches.push(m); save(); render(); matchPopup(p.id === 'diya' ? 'arjun' : p.id); }
     else { if (dir !== 'nope') toast('Liked ' + p.name); render(); }
-  }, 300);
+  }, dir === 'star' ? 800 : 300);
 }
 function bindSwipe() {
   $('#nope').onclick = () => decide('nope'); $('#like').onclick = () => decide('like'); $('#star').onclick = () => decide('star');
-  $('#undo').onclick = () => { if (!S.history.length) return toast('Nothing to undo'); S.idx = S.history.pop(); save(); render(); };
+  $('#undo').onclick = () => { if (!S.history.length) return toast('Nothing to repeat'); S.idx = S.history.pop(); save(); render(); toast('Card brought back'); };
   const r = $('#reset'); if (r) r.onclick = () => { S.idx = 0; S.history = []; save(); render(); };
   const top = [...document.querySelectorAll('.pcard[data-id]')].pop(); if (!top) return;
   let x0 = null, dx = 0, moved = false;
