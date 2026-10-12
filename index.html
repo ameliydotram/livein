@@ -393,6 +393,7 @@ body:not(.no-nav) #app{padding-bottom:110px}
 .smap{background:#1b1830;border:1px solid var(--line);border-radius:14px;padding:10px}.smap div{display:flex;gap:3px;align-items:center;margin:2px 0}.smap small{width:12px;font-size:9px;color:var(--mut)}
 .smap i{flex:1;aspect-ratio:1;border-radius:3px;background:#3b3560;max-width:20px}.smap i.t{background:#ffffff14}.smap i.p{background:var(--grad);box-shadow:0 0 6px #ff7aa2}.smap .scr{text-align:center;font-size:9px;letter-spacing:4px;color:var(--mut);margin:8px 0 0;border-top:2px solid #ff7aa255;padding-top:4px}
 .chip .sl{font-size:10px;opacity:.75}.chip:disabled{opacity:.4}
+.rpw input{width:100%;box-sizing:border-box;background:#1b1830;border:1px solid var(--line);border-radius:12px;color:#fff;padding:12px;font:inherit;margin:8px 0 0}.rpw .rerr{color:#f87171;font-size:12.5px;min-height:16px;margin:6px 0}.rpw .btn{margin-top:8px}
 
 </style>
 </head><body>
@@ -929,7 +930,7 @@ const R = {
     <label>Habits<input name="habits" maxlength="60" value="${esc(pf.habits)}"></label>
     <button class="btn pill">Save changes</button></form>
     <h4 class="sec-h">Privacy</h4><p class="lbl">Blocked users (${S.blocked.length})</p>${S.blocked.length ? `<div class="list">${S.blocked.map(P).map(p => `<div class="brow2"><img src="${av(p)}"><b>${p.name}</b><button class="vd" data-ub="${p.id}">Unblock</button></div>`).join('')}</div>` : '<p class="note" style="text-align:left">No one blocked.</p>'}
-    <h4 class="sec-h">Account</h4><button class="btn pill dark" id="lo">Log out</button><button class="btn pill ghost" id="rs">Reset demo data</button><p class="note">Everything is saved only on this device (demo).</p>`, 'me', () => {
+    <h4 class="sec-h">Account &amp; Security</h4><button type="button" class="btn pill" id="rpw">🔒 Reset password</button><button class="btn pill dark" id="lo">Log out</button><button class="btn pill ghost" id="rs">Reset demo data</button><p class="note">Everything is saved only on this device (demo).</p>`, 'me', () => {
       const drawTags = () => { $('#tags').innerHTML = E.tags.map((t, i) => `<span class="chip">${esc(t)} <button type="button" data-rt="${i}" aria-label="Remove ${esc(t)}">×</button></span>`).join('') || '<span class="note">No interests yet</span>';
         document.querySelectorAll('[data-rt]').forEach(b => b.onclick = () => { E.tags.splice(+b.dataset.rt, 1); drawTags(); }); };
       const drawPh = () => { $('#pgrid').innerHTML = E.photos.map((g, i) => `<div class="pg"><img src="${g}" alt=""><button type="button" data-rp="${i}" aria-label="Remove photo">×</button></div>`).join('') + (E.photos.length < 6 ? `<label class="pg add">+<input type="file" accept="image/*" id="gfile" hidden></label>` : '');
@@ -941,6 +942,7 @@ const R = {
       const addTag = () => { const v = $('#tagin').value.trim(); if (v && !E.tags.includes(v) && E.tags.length < 10) { E.tags.push(v); drawTags(); } $('#tagin').value = ''; };
       $('#tagbtn').onclick = addTag; $('#tagin').onkeydown = e => { if (e.key === 'Enter') { e.preventDefault(); addTag(); } };
       $('#about').oninput = e => $('#acount').textContent = e.target.value.length + '/300';
+      $('#rpw').onclick = resetPw;
       $('#pfile').onchange = e => { const f = e.target.files[0]; if (f) shrink(f, 500, d => { E.photo = d; $('#pimg').src = d; }); };
       $('#sf').onsubmit = e => { e.preventDefault(); const f = Object.fromEntries(new FormData(e.target).entries());
         S.profile = { name: f.name, age: f.age, job: f.job, city: f.city, about: f.about, values: f.values, gender: f.gender, orientation: f.orientation, lookingFor: f.lookingFor, tags: E.tags, photos: E.photos, ...(E.photo !== D.me.photo ? { photo: E.photo } : {}) };
@@ -1031,6 +1033,27 @@ function photoView(id) {
     if (paused) { paused = false; o.classList.remove('paused'); t0 = performance.now() - el; }
     if (dy > 90) return close(); if (held || Math.abs(dx) > 30) return; go(e.clientX > window.innerWidth / 2 ? 1 : -1); };
   show(); raf = requestAnimationFrame(tick);
+}
+// Reset password — demo only: nothing is sent; OTP is shown on screen.
+function resetPw() {
+  document.querySelectorAll('.modal').forEach(x => x.remove());
+  const m = document.createElement('div'); m.className = 'modal'; m.setAttribute('role', 'dialog'); document.body.appendChild(m);
+  let who = '', otp = '';
+  const box = h => { m.innerHTML = `<div class="mbox rpw">${h}<button class="btn pill dark" data-x>Cancel</button></div>`; m.querySelector('[data-x]').onclick = () => m.remove(); const i = m.querySelector('input'); if (i) i.focus(); };
+  const err = t => { const e = m.querySelector('.rerr'); e.textContent = t; };
+  m.onclick = e => { if (e.target === m) m.remove(); };
+  const step1 = () => { box(`<span class="mic-ic tk">🔒</span><h3>Reset password</h3><p>Enter the email or phone linked to your account.</p><input id="rw" placeholder="Email or phone" value="${esc(who)}" autocomplete="username"><p class="rerr"></p><button class="btn pill" id="r1">Send code</button><p class="paynote">Demo — nothing is actually sent.</p>`);
+    m.querySelector('#r1').onclick = () => { const v = m.querySelector('#rw').value.trim();
+      if (!/^\S+@\S+\.\S+$/.test(v) && !/^\+?\d[\d\s-]{8,14}$/.test(v)) return err('Enter a valid email or phone number');
+      who = v; otp = String(100000 + Math.floor(Math.random() * 9e5)); step2(); }; };
+  const step2 = () => { box(`<span class="mic-ic tk">✉️</span><h3>Enter code</h3><p>We "sent" a 6-digit code to <b>${esc(who)}</b>.</p><p class="paynote">Demo code: <b>${otp}</b></p><input id="ro" inputmode="numeric" maxlength="6" placeholder="6-digit code" autocomplete="one-time-code"><p class="rerr"></p><button class="btn pill" id="r2">Verify</button><button class="btn pill ghost" id="rb">Change email/phone</button>`);
+    m.querySelector('#rb').onclick = step1;
+    m.querySelector('#r2').onclick = () => m.querySelector('#ro').value.trim() === otp ? step3() : err('Incorrect code, try again'); };
+  const step3 = () => { box(`<span class="mic-ic tk">🔑</span><h3>New password</h3><input id="rp1" type="password" placeholder="New password (min 8 characters)" autocomplete="new-password"><input id="rp2" type="password" placeholder="Confirm password" autocomplete="new-password"><p class="rerr"></p><button class="btn pill" id="r3">Update password</button>`);
+    m.querySelector('#r3').onclick = () => { const a = m.querySelector('#rp1').value, b = m.querySelector('#rp2').value;
+      if (a.length < 8) return err('Use at least 8 characters'); if (a !== b) return err("Passwords don't match");
+      m.remove(); toast('Password updated (demo)'); }; };
+  step1();
 }
 // Payment placeholder: swap this stub for a real gateway later. Returns a Promise resolving to { ok, ref }.
 function processPayment(order) { return Promise.resolve({ ok: true, ref: 'DEMO-' + Date.now().toString(36).toUpperCase(), demo: true, order }); }
