@@ -517,7 +517,7 @@ window.LIVEIN_DATA.restaurants = [
     seats(key) { // seat map; other "users" book seats over time (simulated), shared across tabs
       const c = cget('seat:' + key); let taken = c ? c.v.taken : null;
       if (!taken) { const r = rnd(hash(key)); taken = []; for (const R of ROWS) for (let i = 1; i <= COLS; i++) if (r() < .35) taken.push(R + i); }
-      else if (Date.now() - c.t > 4000) { const r = Math.random; for (let n = 1 + (r() < .4); n > 0; n--) { const s = ROWS[r() * 8 | 0] + (1 + (r() * COLS | 0)); if (!taken.includes(s)) taken.push(s); } }
+      else if (Date.now() - c.t > 4000) { const free = []; for (const R of ROWS) for (let i = 1; i <= COLS; i++) if (!taken.includes(R + i)) free.push(R + i); for (let n = 1 + (Math.random() < .4); n > 0 && free.length > 8; n--) taken.push(free.splice(Math.random() * free.length | 0, 1)[0]); }
       if (!c || Date.now() - c.t > 4000) cset('seat:' + key, { taken });
       return Promise.resolve({ rows: ROWS, cols: COLS, taken, ttl: AVAIL_TTL, demo: true });
     },
