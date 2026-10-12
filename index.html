@@ -425,8 +425,8 @@ body:not(.no-nav) #app{padding-bottom:110px}
 @keyframes spg{50%{box-shadow:0 0 0 4px #4ade80,0 0 38px #4ade80cc}}.gdot{position:absolute;right:8px;bottom:8px;width:16px;height:16px;border-radius:50%;background:#22c55e;border:3px solid #0e0c1c;animation:gp 1.6s infinite}
 @keyframes gp{0%{box-shadow:0 0 0 0 #22c55e99}70%{box-shadow:0 0 0 10px #22c55e00}}.spbadge{display:inline-block;margin:10px auto 0;padding:5px 12px;border-radius:14px;background:#22c55e22;border:1px solid #22c55e88;color:#86efac;font-size:12.5px;font-weight:600}
 .scard{background:#1b1830;border:1px solid var(--line);border-radius:18px;overflow:hidden;margin-top:14px}.sch{display:flex;align-items:center;gap:8px;padding:12px 14px 4px;color:#ff9ac1;font-size:12.5px;letter-spacing:.06em;text-transform:uppercase}.sch b{font-weight:700}
-.sic{width:20px;height:20px;flex:none;color:#ff9ac1}.srow .sic{margin-right:2px}.scard .srow{text-decoration:none}.scard>.srow:last-child,.scard>.scap:last-child{border-bottom:0}
-.scap{font-size:12px;color:var(--mut);margin:0;padding:8px 14px 12px;line-height:1.45}.scap.in{padding-top:0;margin-top:-4px;border-bottom:1px solid var(--line)}
+.sic{width:20px;height:20px;flex:none;color:#ff9ac1}.srow .sic{margin-right:2px}.scard .srow{text-decoration:none}.scard>.srow:last-child,.scard>.scp:last-child{border-bottom:0}
+.scp{font-size:12px;color:var(--mut);margin:0;padding:8px 14px 12px;line-height:1.45}.scp.in{padding-top:0;margin-top:-4px;border-bottom:1px solid var(--line)}
 .sval{color:#cfc9e6!important;font-size:13px!important;margin:0 4px 0 auto!important;max-width:150px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.srow>span{flex:1;min-width:0}
 .emcard{display:flex;align-items:center;gap:12px;padding:14px;text-decoration:none;color:#fff;background:linear-gradient(135deg,#2a2148,#1b1830)}.emcard .sic{width:26px;height:26px}.emcard b{display:block;font-size:15.5px}.emcard small{display:block;color:var(--mut);font-size:12.5px;margin-top:3px}.emcard em{font-style:normal;color:var(--mut);font-size:22px}
 .sin.wide{width:100%;text-align:left}.srow.chk i{flex:none;width:22px;height:22px;border-radius:7px;border:2px solid #6b6590}.srow.chk[aria-checked="true"] i{background:var(--grad);border-color:transparent;box-shadow:inset 0 0 0 3px #1b1830}
@@ -1040,7 +1040,7 @@ const R = {
     return [`<div class="chdr ctr"><a href="#settings" aria-label="Back">${I.back}</a><h3>Notifications</h3><span style="width:24px"></span></div>
     <p class="nintro">Pick what you want to hear about.</p>
     ${NOTIF_GROUPS.map(([t, ic, cap, rows]) => `<div class="scard"><div class="sch">${SI[ic]}<b>${t}</b></div>${rows.map(([k, l, po]) => { const n = S.set.notif[k];
-      return `<a class="srow" href="#notif/${k}"><span><b>${esc(l)}</b><small>${[n.push ? 'Push' : '', !po && n.email && S.set.email ? 'Email' : ''].filter(Boolean).join(' + ') || 'Off'}</small></span><em>›</em></a>`; }).join('')}<p class="scap">${cap}</p></div>`).join('')}`, 'me'];
+      return `<a class="srow" href="#notif/${k}"><span><b>${esc(l)}</b><small>${[n.push ? 'Push' : '', !po && n.email && S.set.email ? 'Email' : ''].filter(Boolean).join(' + ') || 'Off'}</small></span><em>›</em></a>`; }).join('')}<p class="scp">${cap}</p></div>`).join('')}`, 'me'];
   },
   notif(k) {
     const g = NOTIF_GROUPS.find(g => g[3].some(r => r[0] === k)); if (!g) return R.notifs();
@@ -1048,11 +1048,11 @@ const R = {
     return [`<div class="chdr ctr"><a href="#notifs" aria-label="Back">${I.back}</a><h3>${esc(l)}</h3><span style="width:24px"></span></div>
     <div class="scard" style="margin-top:14px"><div class="sch">${SI[g[1]]}<b>${g[0]}</b></div><div class="srow"><span><b>Push</b><small>On this device</small></span>${iosSw('push', n.push, l + ' push')}</div>
     ${po ? '' : noMail ? `<div class="srow"><span><b>Email</b><small><a href="#addemail" id="addm">Add email to enable email notifications</a></small></span>${iosSw('email', false, l + ' email').replace('class="ios"', 'class="ios" disabled aria-disabled="true"')}</div>` : `<div class="srow"><span><b>Email</b><small>${esc(S.set.email)}</small></span>${iosSw('email', n.email, l + ' email')}</div>`}
-    <p class="scap">${g[2]}</p></div>`, 'me', () => bindSw((ch, v) => { n[ch] = v; ls('set', S.set); toast(`${l} · ${ch === 'push' ? 'Push' : 'Email'} ${v ? 'on' : 'off'}`); })];
+    <p class="scp">${g[2]}</p></div>`, 'me', () => bindSw((ch, v) => { n[ch] = v; ls('set', S.set); toast(`${l} · ${ch === 'push' ? 'Push' : 'Email'} ${v ? 'on' : 'off'}`); })];
   },
   addemail() {
     return [`<div class="chdr ctr"><a href="#settings" aria-label="Back">${I.back}</a><h3>Your email</h3><span style="width:24px"></span></div>
-    <div class="scard" style="margin-top:14px"><div class="sch">${SI.mail}<b>Email address</b></div><div class="srow col"><input id="acemail" class="sin wide" type="email" maxlength="60" placeholder="you@example.com" value="${esc(S.set.email || '')}" aria-label="Email"><p class="scap" id="emerr">Used for receipts and the email notifications you turn on. Demo — nothing is sent.</p></div></div>
+    <div class="scard" style="margin-top:14px"><div class="sch">${SI.mail}<b>Email address</b></div><div class="srow col"><input id="acemail" class="sin wide" type="email" maxlength="60" placeholder="you@example.com" value="${esc(S.set.email || '')}" aria-label="Email"><p class="scp" id="emerr">Used for receipts and the email notifications you turn on. Demo — nothing is sent.</p></div></div>
     <button class="btn pill" id="emsave">Save email</button>${S.set.email ? '<button class="btn pill ghost" id="emdel">Remove email</button>' : ''}`, 'me', () => {
       $('#emsave').onclick = () => { const v = $('#acemail').value.trim(); if (!/^\S+@\S+\.\S+$/.test(v)) { $('#emerr').textContent = 'Enter a valid email address'; return; } S.set.email = v; ls('set', S.set); toast('Email saved'); location.hash = '#settings'; };
       const d = $('#emdel'); if (d) d.onclick = () => { S.set.email = ''; ls('set', S.set); toast('Email removed'); location.hash = '#settings'; };
@@ -1071,7 +1071,7 @@ const R = {
     const st = S.set;
     return [`<div class="chdr ctr"><a href="#settings" aria-label="Back">${I.back}</a><h3>Video autoplay</h3><span style="width:24px"></span></div>
     <p class="nintro">Choose when profile videos play on their own.</p>
-    <div class="scard" role="radiogroup" aria-label="Video autoplay">${AUTOPLAY_OPTS.map(o => `<label class="srow rad"><span><b>${o}</b></span><input type="radio" name="autoplay" value="${o}" ${st.autoplay === o ? 'checked' : ''}><i></i></label>`).join('')}<p class="scap">Wi-Fi only helps save mobile data.</p></div>`, 'me', () => {
+    <div class="scard" role="radiogroup" aria-label="Video autoplay">${AUTOPLAY_OPTS.map(o => `<label class="srow rad"><span><b>${o}</b></span><input type="radio" name="autoplay" value="${o}" ${st.autoplay === o ? 'checked' : ''}><i></i></label>`).join('')}<p class="scp">Wi-Fi only helps save mobile data.</p></div>`, 'me', () => {
       document.querySelectorAll('[name="autoplay"]').forEach(r => r.onchange = () => { st.autoplay = r.value; ls('set', st); toast('Video autoplay: ' + r.value); });
     }];
   },
@@ -1103,7 +1103,7 @@ const R = {
   },
   settings() {
     const st = S.set, snz = snoozed();
-    const tg = (k, l, cap) => `<div class="srow"><span><b>${l}</b></span>${iosSw(k, st[k], l)}</div>${cap ? `<p class="scap in">${cap}</p>` : ''}`;
+    const tg = (k, l, cap) => `<div class="srow"><span><b>${l}</b></span>${iosSw(k, st[k], l)}</div>${cap ? `<p class="scp in">${cap}</p>` : ''}`;
     const go = (h, ic, l, val = '') => `<a class="srow" href="#${h}">${ic ? SI[ic] : ''}<span><b>${l}</b></span>${val ? `<small class="sval">${esc(val)}</small>` : ''}<em>›</em></a>`;
     const conn = st.conn.length ? (st.conn.length > 1 ? st.conn[0] + ' +' + (st.conn.length - 1) : st.conn[0]) : 'Choose';
     return [`<div class="chdr ctr"><a href="#me" aria-label="Back">${I.back}</a><h3>Settings</h3><span style="width:24px"></span></div>
@@ -1114,7 +1114,7 @@ const R = {
       ${go('connection', '', 'Type of connection', conn)}
       ${tg('dateMore', DATE_MORE.label, DATE_MORE.desc + '.')}</div>
     <div class="scard"><div class="sch">${SI.eye}<b>Visibility</b></div>
-      <button type="button" class="srow" id="snz"><span><b>Snooze mode</b></span><small class="sval">${snz ? (st.snoozeUntil === 'inf' ? 'On' : 'Until ' + new Date(st.snoozeUntil).toLocaleString('en-IN', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })) : 'Off'}</small><em>›</em></button><p class="scap in">Hide your profile temporarily. You won't lose any connections or chats.</p>
+      <button type="button" class="srow" id="snz"><span><b>Snooze mode</b></span><small class="sval">${snz ? (st.snoozeUntil === 'inf' ? 'On' : 'Until ' + new Date(st.snoozeUntil).toLocaleString('en-IN', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })) : 'Off'}</small><em>›</em></button><p class="scp in">Hide your profile temporarily. You won't lose any connections or chats.</p>
       ${tg('incognito', 'Incognito mode', "Only people you've liked already, or like later, will see your profile.")}
       ${tg('spotlight', 'Auto-Spotlight', `We'll use Spotlight automatically to boost your profile when most people will see it. Demo — free, nothing is charged.`)}
       ${tg('hideName', 'Hide my name', 'Enabling this will show only your first initial to other LIVE IN users.')}</div>
@@ -1217,7 +1217,7 @@ function photoView(id) {
   const go = d => { if (i + d >= ph.length) return close(); i = Math.max(0, i + d); show(); };
   const tick = now => { if (!o.isConnected) return; if (!paused) { el = now - t0; bars[i].style.width = Math.min(100, el / DUR * 100) + '%'; if (el >= DUR) go(1); } raf = requestAnimationFrame(tick); };
   const close = () => { cancelAnimationFrame(raf); o.remove(); document.removeEventListener('keydown', key); };
-  const key = e => { if (e.key === 'Escape') close(); if (e.key === 'ArrowRight') go(1); if (e.key === 'ArrowLeft') go(-1); };
+  const key = e => { if (e.key === 'Escpe') close(); if (e.key === 'ArrowRight') go(1); if (e.key === 'ArrowLeft') go(-1); };
   document.addEventListener('keydown', key); window.addEventListener('hashchange', close, { once: true });
   o.querySelector('.pvx').onclick = e => { e.stopPropagation(); close(); };
   let x0, y0, ht, held = false; const area = o.querySelector('.pvimg');
