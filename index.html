@@ -425,9 +425,9 @@ window.LIVEIN_DATA.stories = [
 (() => {
 const D = window.LIVEIN_DATA, $ = s => document.querySelector(s), app = $('#app');
 const MEM = {}; const ls = (k, v) => { try { if (v === undefined) return JSON.parse(localStorage.getItem('livein_' + k) || 'null'); localStorage.setItem('livein_' + k, JSON.stringify(v)); } catch (e) { if (v === undefined) return MEM[k] === undefined ? null : MEM[k]; MEM[k] = v; } };
-const S = { idx: ls('idx') || 0, history: [], matches: ls('matches') || [], favs: ls('favs') || [], chats: ls('chats') || {}, city: 'Bangalore', filter: null, q: '', quizAns: [], quizFor: null, blocked: ls('blocked') || [], profile: ls('profile') || {}, myStories: ls('myStories') || [], seen: ls('seen') || {}, scores: ls('scores') || {}, quizRes: ls('quizRes') || {}, cine: { city: 'Kochi', day: 0, theatre: null, time: null }, ticket: null,
+const S = { idx: ls('idx') || 0, history: [], matches: ls('matches') || [], favs: ls('favs') || [], chats: ls('chats') || {}, city: 'Bangalore', filter: null, q: '', quizAns: [], quizFor: null, blocked: ls('blocked') || [], unmatched: ls('unmatched') || [], profile: ls('profile') || {}, myStories: ls('myStories') || [], seen: ls('seen') || {}, scores: ls('scores') || {}, quizRes: ls('quizRes') || {}, cine: { city: 'Kochi', day: 0, theatre: null, time: null }, ticket: null,
   ho: { city: 'Kochi', inD: 0, nights: 1 }, stay: null, prefs: ls('prefs') || { lookingFor: 'Co-living', budget: 16000, city: 'Bangalore', habits: 'Early riser, tidy' } };
-const save = () => { ls('idx', S.idx); ls('matches', S.matches); ls('favs', S.favs); ls('chats', S.chats); ls('scores', S.scores); ls('blocked', S.blocked); ls('quizRes', S.quizRes); };
+const save = () => { ls('idx', S.idx); ls('matches', S.matches); ls('favs', S.favs); ls('chats', S.chats); ls('scores', S.scores); ls('blocked', S.blocked); ls('unmatched', S.unmatched); ls('quizRes', S.quizRes); };
 const P = id => D.people.find(p => p.id === id), H = id => D.properties.find(p => p.id === id);
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const now = () => new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
@@ -790,7 +790,7 @@ const R = {
 
 };
 const vis = id => !S.blocked.includes(id);
-const deckList = () => D.people.filter(p => vis(p.id));
+const deckList = () => D.people.filter(p => vis(p.id) && !S.unmatched.includes(p.id));
 function modal(html, onOk) {
   const m = document.createElement('div'); m.className = 'modal'; m.innerHTML = `<div class="mbox">${html}</div>`; document.body.appendChild(m);
   m.onclick = e => { const a = e.target.closest('[data-a]'); if (e.target === m || (a && a.dataset.a === 'no')) m.remove(); else if (a && a.dataset.a === 'ok') { onOk(m); m.remove(); } };
@@ -813,12 +813,20 @@ function reportUser(id) {
     const alsoBlock = mm.querySelector('#rb').checked; toast('Report submitted (demo)'); if (alsoBlock) setTimeout(() => blockUser(id), 50);
   });
 }
+function unmatchUser(id) {
+  const p = P(id);
+  modal(`<span class="mic-ic">${I.x}</span><h3>Unmatch ${p.name}?</h3><p>This removes ${p.name} from your matches and deletes your conversation. ${p.name} won't appear in your swipe deck again. This can't be undone (except with Reset demo data).</p>
+    <button class="btn pill danger" data-a="ok">Unmatch</button><button class="btn pill dark" data-a="no">Cancel</button>`, () => {
+    const di = deckList().findIndex(x => x.id === id); if (di > -1 && di < S.idx) S.idx--;
+    S.matches = S.matches.filter(x => x !== id); delete S.chats[id]; delete S.scores[id]; delete S.quizRes[id];
+    if (!S.unmatched.includes(id)) S.unmatched.push(id); save(); toast('Unmatched ' + p.name); location.hash = '#chats'; render();
+  });
+}
 function openMenu(id) {
   const p = P(id);
-  modal(`<div class="menu"><a href="#profile/${id}" data-a="no">${I.user}View profile</a><a href="#compat/${id}" data-a="no">${I.heartS}Your Match</a>
-    <button data-a="no" id="m-rep">${I.flag}Report ${p.name}</button><button data-a="no" id="m-blk" class="red">${I.block}Block ${p.name}</button><button data-a="no">Cancel</button></div>`, () => {});
+  modal(`<div class="menu"><button data-a="no" id="m-unm" class="red">${I.x}Unmatch</button><button data-a="no" id="m-rep">${I.flag}Report</button><button data-a="no">Cancel</button></div>`, () => {});
+  $('#m-unm').addEventListener('click', () => setTimeout(() => unmatchUser(id), 0));
   $('#m-rep').addEventListener('click', () => setTimeout(() => reportUser(id), 0));
-  $('#m-blk').addEventListener('click', () => setTimeout(() => blockUser(id), 0));
 }
 let CALL = null;
 function endCall(log) {
