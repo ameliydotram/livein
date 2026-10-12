@@ -1,0 +1,374 @@
+{
+ "note": "LIVE IN content. SAMPLE data. Edited via /admin/. Cinema = theatres (price per seat, capacity = seats, schedule = comma-separated showtimes). Hotel = stays (price per night, capacity = rooms).",
+ "updated": "2026-10-12T19:46:52.065Z",
+ "entries": [
+  {
+   "id": "c1",
+   "category": "Cinema",
+   "name": "Marine Drive Screens (sample)",
+   "city": "Kochi",
+   "area": "",
+   "price": 220,
+   "capacity": 120,
+   "schedule": "10:30 AM, 1:45 PM, 6:30 PM, 9:45 PM",
+   "rating": 4.3,
+   "description": "Sample theatre for Cinema movie dates.",
+   "coupleFriendly": true
+  },
+  {
+   "id": "c2",
+   "category": "Cinema",
+   "name": "Infopark Cineplex, Kakkanad (sample)",
+   "city": "Kochi",
+   "area": "Kakkanad",
+   "price": 180,
+   "capacity": 120,
+   "schedule": "11:00 AM, 3:15 PM, 7:00 PM",
+   "rating": 4.3,
+   "description": "Sample theatre for Cinema movie dates.",
+   "coupleFriendly": true
+  },
+  {
+   "id": "c3",
+   "category": "Cinema",
+   "name": "Edappally Grand (sample)",
+   "city": "Kochi",
+   "area": "",
+   "price": 250,
+   "capacity": 120,
+   "schedule": "12:15 PM, 4:30 PM, 8:30 PM",
+   "rating": 4.3,
+   "description": "Sample theatre for Cinema movie dates.",
+   "coupleFriendly": true
+  },
+  {
+   "id": "c4",
+   "category": "Cinema",
+   "name": "Koramangala Talkies (sample)",
+   "city": "Bangalore",
+   "area": "",
+   "price": 260,
+   "capacity": 120,
+   "schedule": "10:00 AM, 1:30 PM, 7:15 PM, 10:20 PM",
+   "rating": 4.3,
+   "description": "Sample theatre for Cinema movie dates.",
+   "coupleFriendly": true
+  },
+  {
+   "id": "c5",
+   "category": "Cinema",
+   "name": "Indiranagar Picture House (sample)",
+   "city": "Bangalore",
+   "area": "",
+   "price": 300,
+   "capacity": 120,
+   "schedule": "11:45 AM, 4:00 PM, 8:00 PM",
+   "rating": 4.3,
+   "description": "Sample theatre for Cinema movie dates.",
+   "coupleFriendly": true
+  },
+  {
+   "id": "c6",
+   "category": "Cinema",
+   "name": "Whitefield Cinemas (sample)",
+   "city": "Bangalore",
+   "area": "",
+   "price": 200,
+   "capacity": 120,
+   "schedule": "12:30 PM, 5:00 PM, 9:15 PM",
+   "rating": 4.3,
+   "description": "Sample theatre for Cinema movie dates.",
+   "coupleFriendly": true
+  },
+  {
+   "id": "h1",
+   "category": "Hotel",
+   "name": "Infopark Bay Suites",
+   "city": "Kochi",
+   "area": "Kakkanad",
+   "price": 2800,
+   "capacity": 24,
+   "schedule": "Check-in 2:00 PM · Check-out 11:00 AM",
+   "rating": 4.4,
+   "description": "Sample stay. Perks: Free Wi-Fi, Breakfast, Lake view",
+   "coupleFriendly": true
+  },
+  {
+   "id": "h2",
+   "category": "Hotel",
+   "name": "Lulu Lane Residency",
+   "city": "Kochi",
+   "area": "Edappally",
+   "price": 2200,
+   "capacity": 24,
+   "schedule": "Check-in 2:00 PM · Check-out 11:00 AM",
+   "rating": 4.1,
+   "description": "Sample stay. Perks: Metro nearby, AC, 24h desk",
+   "coupleFriendly": true
+  },
+  {
+   "id": "h3",
+   "category": "Hotel",
+   "name": "Leafy Avenue Boutique Stay",
+   "city": "Kochi",
+   "area": "Panampilly Nagar",
+   "price": 3600,
+   "capacity": 24,
+   "schedule": "Check-in 2:00 PM · Check-out 11:00 AM",
+   "rating": 4.6,
+   "description": "Sample stay. Perks: Café, Garden, Free Wi-Fi",
+   "coupleFriendly": true
+  },
+  {
+   "id": "h4",
+   "category": "Hotel",
+   "name": "Hub Transit Inn",
+   "city": "Kochi",
+   "area": "Vyttila",
+   "price": 1700,
+   "capacity": 24,
+   "schedule": "Check-in 2:00 PM · Check-out 11:00 AM",
+   "rating": 3.9,
+   "description": "Sample stay. Perks: Near bus hub, AC",
+   "coupleFriendly": false
+  },
+  {
+   "id": "h5",
+   "category": "Hotel",
+   "name": "Forum Court Hotel",
+   "city": "Bangalore",
+   "area": "Koramangala",
+   "price": 3900,
+   "capacity": 24,
+   "schedule": "Check-in 2:00 PM · Check-out 11:00 AM",
+   "rating": 4.5,
+   "description": "Sample stay. Perks: Rooftop café, Gym, Free Wi-Fi",
+   "coupleFriendly": true
+  },
+  {
+   "id": "h6",
+   "category": "Hotel",
+   "name": "100 Feet Boutique Rooms",
+   "city": "Bangalore",
+   "area": "Indiranagar",
+   "price": 4200,
+   "capacity": 24,
+   "schedule": "Check-in 2:00 PM · Check-out 11:00 AM",
+   "rating": 4.7,
+   "description": "Sample stay. Perks: Metro nearby, Breakfast",
+   "coupleFriendly": true
+  },
+  {
+   "id": "h7",
+   "category": "Hotel",
+   "name": "Sector 2 Stay",
+   "city": "Bangalore",
+   "area": "HSR Layout",
+   "price": 2500,
+   "capacity": 24,
+   "schedule": "Check-in 2:00 PM · Check-out 11:00 AM",
+   "rating": 4,
+   "description": "Sample stay. Perks: Workspace, Free Wi-Fi",
+   "coupleFriendly": true
+  },
+  {
+   "id": "h8",
+   "category": "Hotel",
+   "name": "ITPL Garden Hotel",
+   "city": "Bangalore",
+   "area": "Whitefield",
+   "price": 3100,
+   "capacity": 24,
+   "schedule": "Check-in 2:00 PM · Check-out 11:00 AM",
+   "rating": 4.2,
+   "description": "Sample stay. Perks: Pool, Airport shuttle",
+   "coupleFriendly": false
+  },
+  {
+   "id": "r1",
+   "category": "Restaurant",
+   "name": "Backwater Spice Kitchen",
+   "city": "Kochi",
+   "area": "Fort Kochi",
+   "cuisine": "Kerala",
+   "price": 900,
+   "capacity": 40,
+   "schedule": "12:30 PM, 1:30 PM, 7:00 PM, 8:00 PM, 9:00 PM",
+   "rating": 4.5,
+   "description": "Sample restaurant.",
+   "coupleFriendly": true
+  },
+  {
+   "id": "r2",
+   "category": "Restaurant",
+   "name": "Fort Café & Bakes",
+   "city": "Kochi",
+   "area": "Panampilly Nagar",
+   "cuisine": "Café",
+   "price": 600,
+   "capacity": 40,
+   "schedule": "12:30 PM, 1:30 PM, 7:00 PM, 8:00 PM, 9:00 PM",
+   "rating": 4.3,
+   "description": "Sample restaurant.",
+   "coupleFriendly": true
+  },
+  {
+   "id": "r3",
+   "category": "Restaurant",
+   "name": "Malabar Biryani House",
+   "city": "Kochi",
+   "area": "Edappally",
+   "cuisine": "Biryani",
+   "price": 700,
+   "capacity": 40,
+   "schedule": "12:30 PM, 1:30 PM, 7:00 PM, 8:00 PM, 9:00 PM",
+   "rating": 4.2,
+   "description": "Sample restaurant.",
+   "coupleFriendly": false
+  },
+  {
+   "id": "r4",
+   "category": "Restaurant",
+   "name": "Lakeside Pasta Bar",
+   "city": "Kochi",
+   "area": "Kakkanad",
+   "cuisine": "Italian",
+   "price": 1300,
+   "capacity": 40,
+   "schedule": "12:30 PM, 1:30 PM, 7:00 PM, 8:00 PM, 9:00 PM",
+   "rating": 4.4,
+   "description": "Sample restaurant.",
+   "coupleFriendly": true
+  },
+  {
+   "id": "r5",
+   "category": "Restaurant",
+   "name": "Koramangala Social Table",
+   "city": "Bangalore",
+   "area": "Koramangala",
+   "cuisine": "North Indian",
+   "price": 1200,
+   "capacity": 40,
+   "schedule": "12:30 PM, 1:30 PM, 7:00 PM, 8:00 PM, 9:00 PM",
+   "rating": 4.4,
+   "description": "Sample restaurant.",
+   "coupleFriendly": true
+  },
+  {
+   "id": "r6",
+   "category": "Restaurant",
+   "name": "Indiranagar Dosa Corner",
+   "city": "Bangalore",
+   "area": "Indiranagar",
+   "cuisine": "South Indian",
+   "price": 500,
+   "capacity": 40,
+   "schedule": "12:30 PM, 1:30 PM, 7:00 PM, 8:00 PM, 9:00 PM",
+   "rating": 4.6,
+   "description": "Sample restaurant.",
+   "coupleFriendly": false
+  },
+  {
+   "id": "r7",
+   "category": "Restaurant",
+   "name": "Rooftop Sushi Co.",
+   "city": "Bangalore",
+   "area": "HSR Layout",
+   "cuisine": "Asian",
+   "price": 1800,
+   "capacity": 40,
+   "schedule": "12:30 PM, 1:30 PM, 7:00 PM, 8:00 PM, 9:00 PM",
+   "rating": 4.3,
+   "description": "Sample restaurant.",
+   "coupleFriendly": true
+  },
+  {
+   "id": "r8",
+   "category": "Restaurant",
+   "name": "Candlelight Bistro",
+   "city": "Bangalore",
+   "area": "Whitefield",
+   "cuisine": "Italian",
+   "price": 2200,
+   "capacity": 40,
+   "schedule": "12:30 PM, 1:30 PM, 7:00 PM, 8:00 PM, 9:00 PM",
+   "rating": 4.7,
+   "description": "Sample restaurant.",
+   "coupleFriendly": true
+  }
+ ],
+ "movies": [
+  {
+   "id": "m1",
+   "title": "Monsoon Letters",
+   "lang": "Malayalam",
+   "genre": "Romance · Drama",
+   "mins": 142,
+   "rating": "U/A",
+   "grad": [
+    "#ff7aa2",
+    "#7c3aed"
+   ]
+  },
+  {
+   "id": "m2",
+   "title": "Chai & Chemistry",
+   "lang": "Hindi",
+   "genre": "Rom-Com",
+   "mins": 128,
+   "rating": "U/A",
+   "grad": [
+    "#f59e0b",
+    "#db2777"
+   ]
+  },
+  {
+   "id": "m3",
+   "title": "Starlight Avenue",
+   "lang": "English",
+   "genre": "Romance · Musical",
+   "mins": 118,
+   "rating": "U",
+   "grad": [
+    "#38bdf8",
+    "#6d28d9"
+   ]
+  },
+  {
+   "id": "m4",
+   "title": "Namma Ooru Nights",
+   "lang": "Kannada",
+   "genre": "Drama · Comedy",
+   "mins": 135,
+   "rating": "U/A",
+   "grad": [
+    "#22c55e",
+    "#0e7490"
+   ]
+  },
+  {
+   "id": "m5",
+   "title": "Kayal Breeze",
+   "lang": "Malayalam",
+   "genre": "Feel-good",
+   "mins": 126,
+   "rating": "U",
+   "grad": [
+    "#fb7185",
+    "#f97316"
+   ]
+  },
+  {
+   "id": "m6",
+   "title": "Silicon Hearts",
+   "lang": "English",
+   "genre": "Comedy · Romance",
+   "mins": 110,
+   "rating": "U/A",
+   "grad": [
+    "#a78bfa",
+    "#ec4899"
+   ]
+  }
+ ]
+}

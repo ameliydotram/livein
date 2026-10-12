@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>LIVE IN — Admin</title>
+<link rel="icon" href="data:,">
+<style>
+:root{--bg:#0e0c1c;--card:#1b1830;--line:#ffffff1a;--grad:linear-gradient(90deg,#f57fa3,#c86fd8 55%,#a35cf0);--mut:#a59fba;--txt:#f3eef9}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;background:radial-gradient(120% 60% at 50% 0%,#1d1736,var(--bg) 55%) fixed;color:var(--txt);min-height:100vh}
+.wrap{max-width:760px;margin:0 auto;padding:22px 18px 60px}
+.logo{font-family:Georgia,serif;font-size:28px;letter-spacing:.08em;background:linear-gradient(90deg,#f9b3c4,#d9a8e8);-webkit-background-clip:text;background-clip:text;color:transparent}
+header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px}header small{color:var(--mut)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px;margin-bottom:16px}
+h2{font-size:20px;margin-bottom:8px}h3{font-size:16px;margin-bottom:6px}p,li{font-size:14px;line-height:1.55;color:#ddd6ea}ol,ul{padding-left:20px;margin:8px 0}
+code{background:#2a2440;padding:1px 6px;border-radius:6px;font-size:13px}
+a{color:#ff9cc0}
+.btn{display:inline-flex;align-items:center;justify-content:center;height:44px;padding:0 20px;border-radius:22px;border:0;background:var(--grad);color:#fff;font:600 14px inherit;cursor:pointer}
+.btn.dark{background:#262238;border:1px solid var(--line)}.btn.danger{background:linear-gradient(90deg,#e8476e,#b3245a)}.btn:disabled{opacity:.5;cursor:wait}
+.btn.sm{height:32px;padding:0 12px;font-size:12px}
+label{display:block;font-size:12px;color:var(--mut);margin-bottom:12px}
+input,select,textarea{display:block;width:100%;margin-top:5px;min-height:42px;border-radius:12px;background:#14122a;border:1px solid var(--line);color:#fff;padding:9px 12px;font:inherit;font-size:14px}
+textarea{min-height:80px;resize:vertical}
+.row{display:flex;gap:10px;flex-wrap:wrap}.row>*{flex:1 1 150px}
+.tabs{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap}.tab{padding:8px 16px;border-radius:18px;background:#262238;border:1px solid var(--line);color:#fff;cursor:pointer;font-size:13px}.tab.on{background:var(--grad);border-color:transparent}
+.item{display:flex;gap:12px;align-items:center;padding:12px;border:1px solid var(--line);border-radius:14px;margin-bottom:10px;background:#16132a}
+.item .i{flex:1;min-width:0}.item b{display:block;font-size:15px}.item small{color:var(--mut);font-size:12px;display:block;margin-top:2px}
+.tag{display:inline-block;font-size:10px;padding:2px 8px;border-radius:8px;background:#ff7aa222;color:#ffb3cf;margin-left:6px;vertical-align:middle}
+.msg{padding:10px 14px;border-radius:12px;font-size:14px;margin-bottom:14px;display:none}.msg.ok{display:block;background:#16a34a22;border:1px solid #16a34a66;color:#bbf7d0}.msg.err{display:block;background:#e8476e22;border:1px solid #e8476e66;color:#fecdd3}
+.check{display:flex;align-items:center;gap:8px;font-size:14px;color:#fff}.check input{width:auto;min-height:0;margin:0}
+.hidden{display:none!important}
+.bar{display:flex;gap:10px;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap}
+dialog{margin:auto;background:var(--card);color:var(--txt);border:1px solid var(--line);border-radius:18px;padding:20px;max-width:360px}dialog::backdrop{background:#05040bcc}
+</style></head><body><div class="wrap">
+<header><div><div class="logo">LIVE IN</div><small>Admin · Cinema, Dining &amp; Hotel content</small></div><div><button class="btn dark sm hidden" id="logout">Log out</button></div></header>
+<div class="msg" id="msg" role="status"></div>
+
+<section id="login" class="card">
+  <h2>Admin sign-in</h2>
+  <p>This page is public, but it can't change anything on its own. Saving needs a GitHub token with write access to <code>ameliydotram/livein</code>, and only you have that. The token is kept in this browser tab only (sessionStorage) and is never saved to the site.</p>
+  <label>GitHub fine-grained personal access token<input type="password" id="tok" autocomplete="off" placeholder="github_pat_…"></label>
+  <button class="btn" id="signin">Sign in</button>
+  <h3 style="margin-top:18px">How to create the token (free)</h3>
+  <ol>
+    <li>Open <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">GitHub → Settings → Developer settings → Fine-grained tokens → Generate new token</a>.</li>
+    <li>Name it e.g. <code>livein-admin</code>, choose an expiry (e.g. 30 days).</li>
+    <li>Repository access: <b>Only select repositories</b> → <code>ameliydotram/livein</code>.</li>
+    <li>Permissions → Repository permissions → <b>Contents: Read and write</b> (Metadata: Read-only is added automatically). Nothing else.</li>
+    <li>Generate, copy the token and paste it above. Revoke it any time from the same page.</li>
+  </ol>
+</section>
+
+<section id="app" class="hidden">
+  <div class="card">
+    <div class="bar"><div class="tabs" id="tabs"><button class="tab on" data-c="Cinema">Cinema</button><button class="tab" data-c="Restaurant">Restaurant</button><button class="tab" data-c="Hotel">Hotel</button></div>
+      <div class="row" style="flex:0 1 auto"><select id="fcity" aria-label="Filter by city"><option value="">All cities</option></select><button class="btn sm" id="add">+ Add entry</button></div></div>
+    <p id="hint" style="font-size:12px;color:var(--mut);margin-bottom:10px"></p>
+    <div id="list"></div>
+  </div>
+  <form id="form" class="card hidden" autocomplete="off">
+    <h2 id="ftitle">Add entry</h2>
+    <div class="row"><label>Name<input name="name" required maxlength="80"></label><label>Category<select name="category"><option>Cinema</option><option>Restaurant</option><option>Hotel</option></select></label></div>
+    <div class="row"><label>City<input name="city" required maxlength="40" list="cities"></label><label>Area / location<input name="area" maxlength="60"></label><label>Cuisine (restaurants)<input name="cuisine" maxlength="40"></label></div>
+    <div class="row"><label id="lprice">Price (₹)<input name="price" type="number" min="0" step="1" required></label><label id="lcap">Seats / rooms<input name="capacity" type="number" min="0" step="1"></label><label>Rating (0–5)<input name="rating" type="number" min="0" max="5" step="0.1"></label></div>
+    <label id="lsched">Showtimes / check-in info<input name="schedule" maxlength="160"></label>
+    <label>Description<textarea name="description" maxlength="400"></textarea></label>
+    <label class="check"><input type="checkbox" name="coupleFriendly"> Couple-friendly</label>
+    <div class="row" style="margin-top:14px"><button class="btn" type="submit" id="save">Save &amp; publish</button><button class="btn dark" type="button" id="cancel">Cancel</button></div>
+  </form>
+  <datalist id="cities"><option>Kochi</option><option>Bangalore</option></datalist>
+  <p style="font-size:12px;color:var(--mut)">Saving commits <code>data.json</code> to the repo. GitHub Pages rebuilds, so changes go live in about a minute. Hotel entries are stored for future use (the Hotel tab is currently hidden in the app).</p>
+</section>
+<dialog id="dlg"><h3 id="dtext">Delete?</h3><p style="margin:8px 0 16px">This removes the entry and publishes the change.</p><div class="row"><button class="btn danger" id="dok">Delete</button><button class="btn dark" id="dno">Cancel</button></div></dialog>
+</div>
+<script>
+(() => {
+const REPO = 'ameliydotram/livein', PATH = 'data.json', API = 'https://api.github.com/repos/' + REPO;
+const $ = s => document.querySelector(s), esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+let token = null, data = null, sha = null, cat = 'Cinema', editing = null;
+const ss = { get: k => { try { return sessionStorage.getItem(k); } catch (e) { return null; } }, set: (k, v) => { try { v == null ? sessionStorage.removeItem(k) : sessionStorage.setItem(k, v); } catch (e) {} } };
+const msg = (t, kind) => { const m = $('#msg'); m.textContent = t; m.className = 'msg ' + (kind || 'ok'); if (kind !== 'err') setTimeout(() => { if (m.textContent === t) m.className = 'msg'; }, 6000); };
+const b64e = s => btoa(unescape(encodeURIComponent(s))), b64d = s => decodeURIComponent(escape(atob(s.replace(/\s/g, ''))));
+async function gh(path, opt = {}) {
+  const r = await fetch(API + path, { ...opt, headers: { 'Accept': 'application/vnd.github+json', 'Authorization': 'Bearer ' + token, 'X-GitHub-Api-Version': '2022-11-28', ...(opt.body ? { 'Content-Type': 'application/json' } : {}) } });
+  const j = await r.json().catch(() => ({}));
+  if (!r.ok) { const e = new Error(j.message || ('HTTP ' + r.status)); e.status = r.status; throw e; }
+  return j;
+}
+async function load() {
+  const j = await gh('/contents/' + PATH + '?ref=main&t=' + Date.now());
+  sha = j.sha; data = JSON.parse(b64d(j.content)); if (!Array.isArray(data.entries)) data.entries = [];
+}
+async function signIn(t) {
+  token = t.trim(); $('#signin').disabled = true;
+  try {
+    const repo = await gh('');
+    if (!repo.permissions || !repo.permissions.push) throw new Error('This token can read the repo but cannot write to it. Give it Contents: Read and write.');
+    await load(); ss.set('livein_admin_token', token);
+    $('#login').classList.add('hidden'); $('#app').classList.remove('hidden'); $('#logout').classList.remove('hidden'); draw(); msg('Signed in. Loaded ' + data.entries.length + ' entries.');
+  } catch (e) { token = null; ss.set('livein_admin_token', null); msg(e.status === 401 ? 'Invalid or expired token.' : e.status === 404 ? 'Token has no access to ' + REPO + '.' : e.message, 'err'); }
+  $('#signin').disabled = false;
+}
+function draw() {
+  const cities = [...new Set(data.entries.map(e => e.city).filter(Boolean))].sort(), fc = $('#fcity'), cur = fc.value;
+  fc.innerHTML = '<option value="">All cities</option>' + cities.map(c => `<option ${c === cur ? 'selected' : ''}>${esc(c)}</option>`).join('');
+  document.querySelectorAll('.tab').forEach(t => t.classList.toggle('on', t.dataset.c === cat));
+  $('#hint').textContent = cat === 'Cinema' ? 'Cinema = theatres shown in Cinema. Price is per seat; showtimes are comma-separated (e.g. 10:30 AM, 6:30 PM).' : (cat === 'Restaurant' ? 'Restaurant = shown in Dining and Cinema dinner suggestions. Price is for two; time slots comma-separated; cuisine drives filter chips.' : 'Hotel = stays. Price is per night; capacity = rooms.');
+  const list = data.entries.filter(e => e.category === cat && (!fc.value || e.city === fc.value));
+  $('#list').innerHTML = list.map(e => `<div class="item"><div class="i"><b>${esc(e.name)}${e.coupleFriendly ? '<span class="tag">♥ couple-friendly</span>' : ''}</b>
+    <small>${esc(e.area ? e.area + ', ' : '')}${esc(e.city)} · ₹${esc(e.price)}${{ Cinema: '/seat', Restaurant: ' for two' }[cat] || '/night'}${e.cuisine ? ' · ' + esc(e.cuisine) : ''} · ${esc(e.capacity || 0)} ${cat === 'Cinema' ? 'seats' : 'rooms'}${e.rating ? ' · ★ ' + esc(e.rating) : ''}</small><small>${esc(e.schedule)}</small></div>
+    <button class="btn dark sm" data-e="${esc(e.id)}">Edit</button><button class="btn danger sm" data-d="${esc(e.id)}">Delete</button></div>`).join('') || '<p>No entries yet.</p>';
+  document.querySelectorAll('[data-e]').forEach(b => b.onclick = () => openForm(data.entries.find(x => x.id === b.dataset.e)));
+  document.querySelectorAll('[data-d]').forEach(b => b.onclick = () => askDelete(data.entries.find(x => x.id === b.dataset.d)));
+}
+function labels() { const c = $('#form').category.value; $('#lprice').firstChild.textContent = ({ Cinema: 'Price per seat (₹)', Restaurant: 'Price for two (₹)' }[c] || 'Price per night (₹)'); $('#lcap').firstChild.textContent = ({ Cinema: 'Seats', Restaurant: 'Covers' }[c] || 'Rooms'); $('#lsched').firstChild.textContent = ({ Cinema: 'Showtimes (comma-separated)', Restaurant: 'Time slots (comma-separated)' }[c] || 'Check-in / check-out info'); }
+function openForm(e) {
+  editing = e || null; const f = $('#form'); f.reset(); f.classList.remove('hidden'); $('#ftitle').textContent = e ? 'Edit entry' : 'Add entry';
+  const v = e || { category: cat, city: $('#fcity').value };
+  ['name', 'category', 'city', 'area', 'cuisine', 'price', 'capacity', 'rating', 'schedule', 'description'].forEach(k => { if (v[k] != null) f[k].value = v[k]; });
+  f.coupleFriendly.checked = !!v.coupleFriendly; labels(); f.scrollIntoView({ behavior: 'smooth' }); f.name.focus();
+}
+async function publish(next, note) {
+  $('#save').disabled = true;
+  try {
+    await load(); next(data); data.updated = new Date().toISOString();
+    const r = await gh('/contents/' + PATH, { method: 'PUT', body: JSON.stringify({ message: 'admin: update data', content: b64e(JSON.stringify(data, null, 2) + '\n'), sha, branch: 'main' }) });
+    sha = r.content.sha; draw(); msg((note || 'Saved') + ' — live in about 1 minute.');
+    return true;
+  } catch (e) { msg(e.status === 409 ? 'Someone else changed the data. Reloaded — please try again.' : 'Save failed: ' + e.message, 'err'); try { await load(); draw(); } catch (x) {} return false; }
+  finally { $('#save').disabled = false; }
+}
+function askDelete(e) {
+  const d = $('#dlg'); $('#dtext').textContent = 'Delete “' + e.name + '”?'; d.showModal();
+  $('#dno').onclick = () => d.close();
+  $('#dok').onclick = async () => { d.close(); await publish(dd => { dd.entries = dd.entries.filter(x => x.id !== e.id); }, 'Deleted'); };
+}
+$('#form').category.onchange = labels;
+$('#form').onsubmit = async ev => {
+  ev.preventDefault(); const f = ev.target, o = {};
+  ['name', 'category', 'city', 'area', 'cuisine', 'schedule', 'description'].forEach(k => o[k] = f[k].value.trim());
+  o.price = +f.price.value || 0; o.capacity = +f.capacity.value || 0; o.rating = f.rating.value === '' ? null : +f.rating.value; o.coupleFriendly = f.coupleFriendly.checked;
+  if (!o.name || !o.city) return msg('Name and city are required.', 'err');
+  const id = editing ? editing.id : ({ Cinema: 'c', Restaurant: 'r' }[o.category] || 'h') + Date.now().toString(36);
+  const ok = await publish(dd => { const i = dd.entries.findIndex(x => x.id === id); const rec = { id, ...o }; if (i > -1) dd.entries[i] = rec; else dd.entries.push(rec); }, 'Saved');
+  if (ok) { cat = o.category; f.classList.add('hidden'); editing = null; draw(); }
+};
+$('#cancel').onclick = () => { $('#form').classList.add('hidden'); editing = null; };
+$('#add').onclick = () => openForm(null);
+$('#fcity').onchange = draw;
+document.querySelectorAll('.tab').forEach(t => t.onclick = () => { cat = t.dataset.c; draw(); });
+$('#signin').onclick = () => { const t = $('#tok').value; if (!t.trim()) return msg('Paste your token first.', 'err'); signIn(t); };
+$('#tok').onkeydown = e => { if (e.key === 'Enter') $('#signin').click(); };
+$('#logout').onclick = () => { ss.set('livein_admin_token', null); token = null; data = null; location.reload(); };
+const saved = ss.get('livein_admin_token'); if (saved) signIn(saved);
+})();
+</script></body></html>
