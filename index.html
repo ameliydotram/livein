@@ -630,7 +630,7 @@ const chips = p => `<div class="chips">${p.tags.map(t => `<span class="chip">${t
 const metaRows = p => `<p class="mrow">${I.bag}${p.job} | ${p.city}</p><p class="mrow">${I.home2}Looking for: ${p.lookingFor}</p><p class="mrow">${I.heartS}${p.values}</p>`;
 
 const GR = [['#ff7aa2', '#7c3aed'], ['#0ea5e9', '#6d28d9'], ['#f97316', '#be185d'], ['#22c55e', '#0e7490']];
-const gr = (o, i = 0) => o.grad || GR[(String(o.id || o.name).length + i) % GR.length];
+const gr = (o, i = 0) => o.grad || GR[([...String(o.id || o.name)].reduce((x, c) => x + c.charCodeAt(0), 0) + i) % GR.length];
 const hx = h => h && { ...h, price: +h.price || 0, grad: gr(h), perks: h.perks || [] };
 const rx = r => r && { ...r, price: +r.price || 0, grad: gr(r, 1), cuisine: r.cuisine || 'Restaurant', slots: r.slots || (r.schedule ? String(r.schedule).split(',').map(x => x.trim()).filter(Boolean) : ['12:30 PM', '1:30 PM', '7:00 PM', '8:00 PM', '9:00 PM']) };
 // ---- live data glue (api.js): lazy per tab, re-render on SWR update, skeleton / retry / fallback ----
