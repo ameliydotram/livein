@@ -421,7 +421,7 @@ body:not(.no-nav) #app{padding-bottom:110px}
 .srow.rad input{position:absolute;opacity:0}.srow.rad i{flex:none;width:22px;height:22px;border-radius:50%;border:2px solid #6b6590}.srow.rad input:checked+i{border-color:#ff7aa2;background:radial-gradient(#ff7aa2 45%,transparent 50%)}.srow.rad input:focus-visible+i{outline:2px solid #ff7aa2}
 .ios[disabled]{opacity:.4;cursor:not-allowed}
 .row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}.row3 .btn{padding-left:6px;padding-right:6px;font-size:14px;white-space:nowrap;margin-top:0}.row3 .ic{width:15px;height:15px;vertical-align:-2px}
-.spw{position:relative;display:inline-block;border-radius:50%}.spw.on .ra{box-shadow:0 0 0 4px #22c55e,0 0 26px #22c55eaa;animation:spg 2.4s ease-in-out infinite}
+.spw{position:relative;display:inline-block;border-radius:50%}.spw.on .ra{box-shadow:0 0 0 4px #22c55e;animation:none}
 @keyframes spg{50%{box-shadow:0 0 0 4px #4ade80,0 0 38px #4ade80cc}}.gdot{position:absolute;right:8px;bottom:8px;width:16px;height:16px;border-radius:50%;background:#22c55e;border:3px solid #0e0c1c;animation:gp 1.6s infinite}
 @keyframes gp{0%{box-shadow:0 0 0 0 #22c55e99}70%{box-shadow:0 0 0 10px #22c55e00}}.spbadge{display:inline-block;margin:10px auto 0;padding:5px 12px;border-radius:14px;background:#22c55e22;border:1px solid #22c55e88;color:#86efac;font-size:12.5px;font-weight:600}
 .scard{background:#1b1830;border:1px solid var(--line);border-radius:18px;overflow:hidden;margin-top:14px}.sch{display:flex;align-items:center;gap:8px;padding:12px 14px 4px;color:#ff9ac1;font-size:12.5px;letter-spacing:.06em;text-transform:uppercase}.sch b{font-weight:700}
@@ -433,6 +433,7 @@ body:not(.no-nav) #app{padding-bottom:110px}
 .linkbtn{display:block;margin:14px auto 0;background:none;border:0;color:#f87171;font:inherit;font-size:14px;text-decoration:underline;cursor:pointer}
 .sfoot{display:flex;flex-direction:column;align-items:center;gap:4px;margin:26px 0 10px;color:var(--mut)}.sfoot small{font-size:12px}
 .lovec{display:inline-flex;align-items:center;gap:4px;margin:6px auto 0;padding:3px 11px;border-radius:12px;background:#ff4d8d1f;color:#ff8fb6;font-size:14px;pointer-events:none;user-select:none}.lovec small{font-size:11.5px;color:var(--mut)}
+.spcd{text-align:right;font-size:12.5px;color:var(--mut);margin:6px 4px 0}
 
 </style>
 </head><body>
@@ -987,11 +988,11 @@ const R = {
   me() {
     const pf = S.prefs, m = ME();
     return [`<div class="mehdr"><h2>Profile</h2></div>
-    <div class="meh"><span class="spw ${spotOn() ? 'on' : ''}"><img class="ra" src="${m.photo}" alt="${esc(m.name)}">${spotOn() ? '<i class="gdot"></i>' : ''}</span>${spotOn() ? `<p class="spbadge" id="spcd">✦ Spotlight on · ${hhmm(S.set.spotUntil - Date.now())} left</p>` : ''}${idTags(m, 'c')}<h2>${esc(S.set.hideName ? m.name.trim()[0] + '.' : m.name)}, ${esc(m.age)} ${I.verified}</h2>${loveC(m.loves != null ? m.loves : D.me.loves)}${S.set.incognito || S.set.spotlight ? `<p class="small-c">${S.set.incognito ? '🕶️ Incognito on' : ''}${S.set.incognito && S.set.spotlight ? ' · ' : ''}${S.set.spotlight ? '✨ Auto Spotlight on (demo)' : ''}</p>` : ''}<p class="small-c">${esc(m.job)} · ${esc(m.city)}</p></div>
-    <div class="row3"><a class="btn pill" href="#edit">Edit profile</a><a class="btn pill dark" href="#settings" id="setb">${I.gear} Settings</a><button type="button" class="btn pill dark" id="spb">✦ Spotlight</button></div>
+    <div class="meh"><span class="spw ${spotOn() ? 'on' : ''}"><img class="ra" src="${m.photo}" alt="${esc(m.name)}"></span>${idTags(m, 'c')}<h2>${esc(S.set.hideName ? m.name.trim()[0] + '.' : m.name)}, ${esc(m.age)} ${I.verified}</h2>${loveC(m.loves != null ? m.loves : D.me.loves)}${S.set.incognito || S.set.spotlight ? `<p class="small-c">${S.set.incognito ? '🕶️ Incognito on' : ''}${S.set.incognito && S.set.spotlight ? ' · ' : ''}${S.set.spotlight ? '✨ Auto Spotlight on (demo)' : ''}</p>` : ''}<p class="small-c">${esc(m.job)} · ${esc(m.city)}</p></div>
+    <div class="row3"><a class="btn pill" href="#edit">Edit profile</a><a class="btn pill dark" href="#settings" id="setb">${I.gear} Settings</a><button type="button" class="btn pill dark" id="spb">✦ Spotlight</button></div>${spotOn() ? `<p class="spcd" id="spcd">Spotlight: ${hhmm(S.set.spotUntil - Date.now())} left</p>` : ''}
     ${m.about ? `<h4 class="sh">About Me</h4><p class="about">${esc(m.about)}</p>` : ''}${m.tags.length ? `<div class="chips">${m.tags.map(t => `<span class="chip">${esc(t)}</span>`).join('')}</div>` : ''}
     ${m.photos.length ? `<div class="gal">${m.photos.slice(0, 6).map(g => `<img src="${g}" alt="">`).join('')}</div>` : ''}
-    <div class="theatre"><p class="mrow" style="margin:0">${I.home2}Looking for: ${esc(m.lookingFor)}</p>${m.values ? `<p class="mrow">${I.heartS}${esc(m.values)}</p>` : ''}<p class="mrow">${I.bag}Budget: up to ₹${(+pf.budget).toLocaleString('en-IN')}/month</p><p class="mrow">${I.pin}Preferred city: ${esc(pf.city)}</p><p class="mrow">${I.star}${esc(pf.habits)}</p></div>`, 'me', () => { $('#spb').onclick = spotSheet; if (spotOn()) every(() => { const e = $('#spcd'); if (!spotOn()) return render(); if (e) e.textContent = `✦ Spotlight on · ${hhmm(S.set.spotUntil - Date.now())} left`; }, 15000); }];
+    <div class="theatre"><p class="mrow" style="margin:0">${I.home2}Looking for: ${esc(m.lookingFor)}</p>${m.values ? `<p class="mrow">${I.heartS}${esc(m.values)}</p>` : ''}<p class="mrow">${I.bag}Budget: up to ₹${(+pf.budget).toLocaleString('en-IN')}/month</p><p class="mrow">${I.pin}Preferred city: ${esc(pf.city)}</p><p class="mrow">${I.star}${esc(pf.habits)}</p></div>`, 'me', () => { $('#spb').onclick = spotSheet; if (spotOn()) every(() => { const e = $('#spcd'); if (!spotOn()) return render(); if (e) e.textContent = `Spotlight: ${hhmm(S.set.spotUntil - Date.now())} left`; }, 15000); }];
   },
   prefs() { setTimeout(() => location.replace('#edit')); return ['']; },
   edit() {
