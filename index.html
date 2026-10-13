@@ -763,7 +763,11 @@ const R = {
   },
   call(id, kind) {
     const p = P(id); kind = kind === 'video' ? 'video' : 'voice';
-    if (!vis(id)) { setTimeout(() => location.hash = '#chat/' + id); return [''] }
+    if (!vis(id)) { setTimeout(() => location.replace('#chat/' + id)); return [''] }
+    // Only ring when the user actually tapped a call button; reaching #call via back/forward/reload never starts a call.
+    const req = CALLREQ; CALLREQ = null;
+    if (!(CALL && CALL.id === id && CALL.kind === kind) && !(req && req.h === '#call/' + id + '/' + kind)) { setTimeout(() => location.replace('#chat/' + id)); return [''] }
+    const fromChat = req ? req.from === '#chat/' + id : !!(CALL && CALL.fromChat);
     const ctr = kind === 'video'
       ? `<button class="cbtn" id="cm" aria-label="Mute">${I.mic}</button><button class="cbtn" id="cc" aria-label="Camera off">${I.video}</button><button class="cbtn" id="cf2" aria-label="Flip camera">${I.flip}</button><button class="cbtn end" id="ce" aria-label="End call">${I.phone}</button>`
       : `<button class="cbtn" id="cm" aria-label="Mute">${I.mic}</button><button class="cbtn" id="cs" aria-label="Speaker">${I.speaker}</button><button class="cbtn end" id="ce" aria-label="End call">${I.phone}</button>`;
@@ -772,7 +776,8 @@ const R = {
          <div class="vself" id="vself"><video id="sv" autoplay playsinline muted></video><img id="sph" src="${myAv()}" alt="You"><span>You</span></div>`
       : `<div class="vbg"></div><div class="vwrap"><div class="pulse"><i></i><i></i><i></i><img src="${av(p)}" alt="${p.name}"></div><h2>${p.name}</h2><p id="cst">Calling…</p></div>`;
     return [`<div class="callscr ${kind}">${body}<p class="cdemo">Demo call — no real call is placed</p><div class="cctl">${ctr}</div></div>`, null, () => {
-      endCall(false); CALL = { id, kind, secs: 0 };
+      if (CALL && CALL.id === id && CALL.kind === kind && !req) return; // already active (re-render)
+      endCall(false); CALL = { id, kind, secs: 0, fromChat };
       const st = () => $('#cst'), C0 = CALL;
       C0.c = setTimeout(() => { if (CALL !== C0) return; C0.t = setInterval(() => { C0.secs++; const e = st(); if (e) e.textContent = Math.floor(C0.secs / 60) + ':' + String(C0.secs % 60).padStart(2, '0'); }, 1000); const e = st(); if (e) e.textContent = '0:00'; }, kind === 'video' ? 1200 : 2200);
       const tog = (b, on, off) => b.onclick = () => { b.classList.toggle('on'); b.innerHTML = b.classList.contains('on') ? off : on; };
@@ -794,7 +799,7 @@ const R = {
           $('#vself').classList.toggle('off', off); if (C0.stream) C0.stream.getVideoTracks().forEach(t => t.enabled = !off); };
         $('#cf2').onclick = () => { C0.face = C0.face === 'user' ? 'environment' : 'user'; if (C0.stream) startCam(C0.face); else toast('Camera flipped (demo)'); };
       }
-      $('#ce').onclick = () => { endCall(true); location.hash = '#chat/' + id; };
+      $('#ce').onclick = () => { const back = CALL && CALL.fromChat; endCall(true); if (back) history.back(); else location.replace('#chat/' + id); };
     }];
   },
   chats() {
@@ -1256,6 +1261,8 @@ function resetPw() {
 // Payment placeholder: swap this stub for a real gateway later. Returns a Promise resolving to { ok, ref }.
 function processPayment(order) { return Promise.resolve({ ok: true, ref: 'DEMO-' + Date.now().toString(36).toUpperCase(), demo: true, order }); }
 let CALL = null;
+let CALLREQ = null;
+document.addEventListener('click', e => { const a = e.target.closest && e.target.closest('a[href^="#call/"]'); if (a) CALLREQ = { h: a.getAttribute('href'), from: location.hash }; }, true);
 function endCall(log) {
   if (!CALL) return; clearInterval(CALL.t); clearTimeout(CALL.c); if (CALL.stream) CALL.stream.getTracks().forEach(t => t.stop());
   const c = CALL; CALL = null;
