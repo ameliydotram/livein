@@ -32,7 +32,7 @@ textarea{min-height:80px;resize:vertical}
 .bar{display:flex;gap:10px;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap}
 dialog{margin:auto;background:var(--card);color:var(--txt);border:1px solid var(--line);border-radius:18px;padding:20px;max-width:360px}dialog::backdrop{background:#05040bcc}
 </style></head><body><div class="wrap">
-<header><div><div class="logo">LIVE IN</div><small>Admin · Cinema, Dining &amp; Hotel content</small></div><div><button class="btn dark sm hidden" id="logout">Log out</button></div></header>
+<header><div><div class="logo">LIVE IN</div><small>Admin · AI Workshop, Cinema, Dining &amp; Hotel content</small></div><div><button class="btn dark sm hidden" id="logout">Log out</button></div></header>
 <div class="msg" id="msg" role="status"></div>
 
 <section id="login" class="card">
@@ -52,15 +52,15 @@ dialog{margin:auto;background:var(--card);color:var(--txt);border:1px solid var(
 
 <section id="app" class="hidden">
   <div class="card">
-    <div class="bar"><div class="tabs" id="tabs"><button class="tab on" data-c="Cinema">Cinema</button><button class="tab" data-c="Restaurant">Restaurant</button><button class="tab" data-c="Hotel">Hotel</button></div>
+    <div class="bar"><div class="tabs" id="tabs"><button class="tab on" data-c="Cinema">Cinema</button><button class="tab" data-c="Restaurant">Restaurant</button><button class="tab" data-c="Hotel">Hotel</button><button class="tab" data-c="AI Workshop">AI Workshop</button></div>
       <div class="row" style="flex:0 1 auto"><select id="fcity" aria-label="Filter by city"><option value="">All cities</option></select><button class="btn sm" id="add">+ Add entry</button></div></div>
     <p id="hint" style="font-size:12px;color:var(--mut);margin-bottom:10px"></p>
     <div id="list"></div>
   </div>
   <form id="form" class="card hidden" autocomplete="off">
     <h2 id="ftitle">Add entry</h2>
-    <div class="row"><label>Name<input name="name" required maxlength="80"></label><label>Category<select name="category"><option>Cinema</option><option>Restaurant</option><option>Hotel</option></select></label></div>
-    <div class="row"><label>City<input name="city" required maxlength="40" list="cities"></label><label>Area / location<input name="area" maxlength="60"></label><label>Cuisine (restaurants)<input name="cuisine" maxlength="40"></label></div>
+    <div class="row"><label>Name<input name="name" required maxlength="80"></label><label>Category<select name="category"><option>Cinema</option><option>Restaurant</option><option>Hotel</option><option>AI Workshop</option></select></label></div>
+    <div class="row"><label>City<input name="city" required maxlength="40" list="cities"></label><label>Area / location<input name="area" maxlength="60"></label><label id="lcui">Cuisine (restaurants)<input name="cuisine" maxlength="40"></label><label id="linst" class="hidden">Instructor<input name="instructor" maxlength="60"></label></div>
     <div class="row"><label id="lprice">Price (₹)<input name="price" type="number" min="0" step="1" required></label><label id="lcap">Seats / rooms<input name="capacity" type="number" min="0" step="1"></label><label>Rating (0–5)<input name="rating" type="number" min="0" max="5" step="0.1"></label></div>
     <label id="lsched">Showtimes / check-in info<input name="schedule" maxlength="160"></label>
     <label>Description<textarea name="description" maxlength="400"></textarea></label>
@@ -104,19 +104,19 @@ function draw() {
   const cities = [...new Set(data.entries.map(e => e.city).filter(Boolean))].sort(), fc = $('#fcity'), cur = fc.value;
   fc.innerHTML = '<option value="">All cities</option>' + cities.map(c => `<option ${c === cur ? 'selected' : ''}>${esc(c)}</option>`).join('');
   document.querySelectorAll('.tab').forEach(t => t.classList.toggle('on', t.dataset.c === cat));
-  $('#hint').textContent = cat === 'Cinema' ? 'Cinema = theatres shown in Cinema. Price is per seat; showtimes are comma-separated (e.g. 10:30 AM, 6:30 PM).' : (cat === 'Restaurant' ? 'Restaurant = shown in Dining and Cinema dinner suggestions. Price is for two; time slots comma-separated; cuisine drives filter chips.' : 'Hotel = stays. Price is per night; capacity = rooms.');
+  $('#hint').textContent = cat === 'Cinema' ? 'Cinema = theatres shown in Cinema. Price is per seat; showtimes are comma-separated (e.g. 10:30 AM, 6:30 PM).' : (cat === 'Restaurant' ? 'Restaurant = shown in Hangout → Dining table reservation and Cinema dinner suggestions. Price is for two; time slots comma-separated; cuisine drives filter chips.' : cat === 'AI Workshop' ? 'AI Workshop = shown in the AI ticket tab. Price is per ticket; capacity = total seats; schedule = dates & times text; area = venue.' : 'Hotel = stays. Price is per night; capacity = rooms.');
   const list = data.entries.filter(e => e.category === cat && (!fc.value || e.city === fc.value));
   $('#list').innerHTML = list.map(e => `<div class="item"><div class="i"><b>${esc(e.name)}${e.coupleFriendly ? '<span class="tag">♥ couple-friendly</span>' : ''}</b>
-    <small>${esc(e.area ? e.area + ', ' : '')}${esc(e.city)} · ₹${esc(e.price)}${{ Cinema: '/seat', Restaurant: ' for two' }[cat] || '/night'}${e.cuisine ? ' · ' + esc(e.cuisine) : ''} · ${esc(e.capacity || 0)} ${cat === 'Cinema' ? 'seats' : 'rooms'}${e.rating ? ' · ★ ' + esc(e.rating) : ''}</small><small>${esc(e.schedule)}</small></div>
+    <small>${esc(e.area ? e.area + ', ' : '')}${esc(e.city)} · ₹${esc(e.price)}${{ Cinema: '/seat', Restaurant: ' for two', 'AI Workshop': '/ticket' }[cat] || '/night'}${e.cuisine ? ' · ' + esc(e.cuisine) : ''} · ${esc(e.capacity || 0)} ${cat === 'Cinema' || cat === 'AI Workshop' ? 'seats' : 'rooms'}${e.instructor ? ' · ' + esc(e.instructor) : ''}${e.rating ? ' · ★ ' + esc(e.rating) : ''}</small><small>${esc(e.schedule)}</small></div>
     <button class="btn dark sm" data-e="${esc(e.id)}">Edit</button><button class="btn danger sm" data-d="${esc(e.id)}">Delete</button></div>`).join('') || '<p>No entries yet.</p>';
   document.querySelectorAll('[data-e]').forEach(b => b.onclick = () => openForm(data.entries.find(x => x.id === b.dataset.e)));
   document.querySelectorAll('[data-d]').forEach(b => b.onclick = () => askDelete(data.entries.find(x => x.id === b.dataset.d)));
 }
-function labels() { const c = $('#form').category.value; $('#lprice').firstChild.textContent = ({ Cinema: 'Price per seat (₹)', Restaurant: 'Price for two (₹)' }[c] || 'Price per night (₹)'); $('#lcap').firstChild.textContent = ({ Cinema: 'Seats', Restaurant: 'Covers' }[c] || 'Rooms'); $('#lsched').firstChild.textContent = ({ Cinema: 'Showtimes (comma-separated)', Restaurant: 'Time slots (comma-separated)' }[c] || 'Check-in / check-out info'); }
+function labels() { const c = $('#form').category.value, w = c === 'AI Workshop'; $('#lprice').firstChild.textContent = ({ Cinema: 'Price per seat (₹)', Restaurant: 'Price for two (₹)', 'AI Workshop': 'Price per ticket (₹)' }[c] || 'Price per night (₹)'); $('#lcap').firstChild.textContent = ({ Cinema: 'Seats', Restaurant: 'Covers', 'AI Workshop': 'Total seats' }[c] || 'Rooms'); $('#lsched').firstChild.textContent = ({ Cinema: 'Showtimes (comma-separated)', Restaurant: 'Time slots (comma-separated)', 'AI Workshop': 'Dates & times (e.g. Sat 14 Nov 2026 · 10:00 AM – 5:00 PM)' }[c] || 'Check-in / check-out info'); $('#lcui').classList.toggle('hidden', w); $('#linst').classList.toggle('hidden', !w); }
 function openForm(e) {
   editing = e || null; const f = $('#form'); f.reset(); f.classList.remove('hidden'); $('#ftitle').textContent = e ? 'Edit entry' : 'Add entry';
   const v = e || { category: cat, city: $('#fcity').value };
-  ['name', 'category', 'city', 'area', 'cuisine', 'price', 'capacity', 'rating', 'schedule', 'description'].forEach(k => { if (v[k] != null) f[k].value = v[k]; });
+  ['name', 'category', 'city', 'area', 'cuisine', 'instructor', 'price', 'capacity', 'rating', 'schedule', 'description'].forEach(k => { if (v[k] != null) f[k].value = v[k]; });
   f.coupleFriendly.checked = !!v.coupleFriendly; labels(); f.scrollIntoView({ behavior: 'smooth' }); f.name.focus();
 }
 async function publish(next, note) {
@@ -137,11 +137,11 @@ function askDelete(e) {
 $('#form').category.onchange = labels;
 $('#form').onsubmit = async ev => {
   ev.preventDefault(); const f = ev.target, o = {};
-  ['name', 'category', 'city', 'area', 'cuisine', 'schedule', 'description'].forEach(k => o[k] = f[k].value.trim());
+  ['name', 'category', 'city', 'area', 'cuisine', 'schedule', 'description'].forEach(k => o[k] = f[k].value.trim()); if (o.category === 'AI Workshop') { o.instructor = f.instructor.value.trim(); delete o.cuisine; }
   o.price = +f.price.value || 0; o.capacity = +f.capacity.value || 0; o.rating = f.rating.value === '' ? null : +f.rating.value; o.coupleFriendly = f.coupleFriendly.checked;
   if (!o.name || !o.city) return msg('Name and city are required.', 'err');
-  const id = editing ? editing.id : ({ Cinema: 'c', Restaurant: 'r' }[o.category] || 'h') + Date.now().toString(36);
-  const ok = await publish(dd => { const i = dd.entries.findIndex(x => x.id === id); const rec = { id, ...o }; if (i > -1) dd.entries[i] = rec; else dd.entries.push(rec); }, 'Saved');
+  const id = editing ? editing.id : ({ Cinema: 'c', Restaurant: 'r', 'AI Workshop': 'w' }[o.category] || 'h') + Date.now().toString(36);
+  const ok = await publish(dd => { const i = dd.entries.findIndex(x => x.id === id); const rec = { ...(i > -1 && dd.entries[i].category === o.category ? dd.entries[i] : {}), id, ...o }; if (i > -1) dd.entries[i] = rec; else dd.entries.push(rec); }, 'Saved');
   if (ok) { cat = o.category; f.classList.add('hidden'); editing = null; draw(); }
 };
 $('#cancel').onclick = () => { $('#form').classList.add('hidden'); editing = null; };

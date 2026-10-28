@@ -437,6 +437,21 @@ body:not(.no-nav) #app{padding-bottom:110px}
 .newm.spots img{box-shadow:0 0 0 3px #22c55e;border:2px solid #0e0c1c}
 .newm.spots{padding:5px 5px 2px}
 
+/* AI ticket + Hangout */
+.hgb{margin-bottom:4px}.hgt{margin-top:0}
+.hgo{position:relative;display:flex;flex-direction:column;justify-content:flex-end;gap:4px;height:168px;padding:18px;margin-bottom:16px;border-radius:22px;text-decoration:none;color:#fff;overflow:hidden;border:1px solid var(--line)}
+.hgo.hg-cin{background:radial-gradient(circle at 85% 15%,#ffffff40,transparent 42%),linear-gradient(140deg,#ff6fa3,#7c3aed)}
+.hgo.hg-din{background:radial-gradient(circle at 85% 15%,#ffffff40,transparent 42%),linear-gradient(140deg,#f97316,#0e7490)}
+.hgo b{font-size:22px;font-weight:600}.hgo small{font-size:13px;opacity:.9}
+.hgo .hgi{position:absolute;top:16px;left:16px;width:52px;height:52px;border-radius:16px;background:#0003;display:grid;place-items:center}.hgo .hgi .ic{width:28px;height:28px}
+.hgo em{position:absolute;right:18px;bottom:16px;font-style:normal;font-size:30px;opacity:.85}
+.wsc .hpic{min-height:112px}.wsc .hi{flex:1}
+.wsc .wr{display:flex;align-items:flex-start;gap:5px;line-height:1.35}.wsc .wr .ic{flex:none;width:13px;height:13px;margin-top:1px;color:#ff8fb3}
+.wp{display:flex;justify-content:space-between;align-items:center;margin-top:6px}.wp b{font-size:15px}.wp span{font-size:11.5px;color:#9be7c4;background:#22c55e1f;padding:3px 8px;border-radius:10px}.wp span.low{color:#ffb3a1;background:#f973161f}
+.agenda{margin:0 0 6px 18px;font-size:14px;color:#e8e2f2;line-height:1.5}.agenda li{margin:4px 0}
+.wprice{display:flex;justify-content:space-between;align-items:center;gap:14px;margin:18px 0 10px;padding:12px 12px 12px 16px;border-radius:18px;background:#1d1a2c;border:1px solid var(--line)}.wprice span{display:block;font-size:12px;color:var(--mut)}.wprice b{font-size:21px;color:#fff}.wprice .btn{width:46%;margin:0;height:48px}
+.tcode{letter-spacing:.08em;font-size:16px!important}
+
 </style>
 </head><body>
 <div id="phone"><main id="app"></main><nav id="nav"></nav></div>
@@ -495,7 +510,7 @@ window.LIVEIN_DATA.hotels = [
   { id: "t7", city: "Bangalore", area: "HSR Layout", name: "Sector 2 Stay", price: 2500, rating: 4.0, coupleFriendly: true, grad: ["#38bdf8", "#0f766e"], perks: ["Workspace", "Free Wi-Fi"] },
   { id: "t8", city: "Bangalore", area: "Whitefield", name: "ITPL Garden Hotel", price: 3100, rating: 4.2, coupleFriendly: false, grad: ["#c084fc", "#be185d"], perks: ["Pool", "Airport shuttle"] }
 ];
-// Restaurants for the Dining tab and Cinema "Dinner + movie" suggestions — SAMPLE data (made-up restaurants).
+// Restaurants for Hangout → Dining table reservation and Cinema "Dinner + movie" suggestions — SAMPLE data (made-up restaurants).
 window.LIVEIN_DATA.restaurants = [
   { id: "r1", city: "Kochi", area: "Fort Kochi", name: "Backwater Spice Kitchen", cuisine: "Kerala", price: 900, rating: 4.5, coupleFriendly: true, walk: 4, combo: "Pre-show dinner · 6:00 PM table", grad: ["#f97316", "#be185d"] },
   { id: "r2", city: "Kochi", area: "Panampilly Nagar", name: "Fort Café & Bakes", cuisine: "Café", price: 600, rating: 4.3, coupleFriendly: true, walk: 6, combo: "Post-movie dessert date", grad: ["#a78bfa", "#ec4899"] },
@@ -505,6 +520,26 @@ window.LIVEIN_DATA.restaurants = [
   { id: "r6", city: "Bangalore", area: "Indiranagar", name: "Indiranagar Dosa Corner", cuisine: "South Indian", price: 500, rating: 4.6, coupleFriendly: false, walk: 5, combo: "Quick bite before the show", grad: ["#22c55e", "#0e7490"] },
   { id: "r7", city: "Bangalore", area: "HSR Layout", name: "Rooftop Sushi Co.", cuisine: "Asian", price: 1800, rating: 4.3, coupleFriendly: true, grad: ["#0ea5e9", "#6d28d9"] },
   { id: "r8", city: "Bangalore", area: "Whitefield", name: "Candlelight Bistro", cuisine: "Italian", price: 2200, rating: 4.7, coupleFriendly: true, grad: ["#db2777", "#7c2d12"] }
+];
+
+// AI ticket tab — SAMPLE paid AI workshops (made-up events, instructors, venues and prices; demo booking only, nothing is charged).
+window.LIVEIN_DATA.workshops = [
+  { id: "w1", name: "Prompt Engineering Bootcamp", city: "Kochi", area: "Infopark Phase 1 (sample venue)", price: 2499, capacity: 40, left: 12, days: "2 days", schedule: "Sat 14 Nov – Sun 15 Nov 2026 · 10:00 AM – 5:00 PM", instructor: "Anjali Menon (sample)", level: "Beginner",
+    description: "Hands-on bootcamp on writing reliable prompts for ChatGPT-style assistants: roles, examples, structured outputs and evaluation.", agenda: ["Day 1 · How LLMs read prompts", "Day 1 · Few-shot & structured output", "Day 2 · Prompt testing & evals", "Day 2 · Capstone: your own prompt library"] },
+  { id: "w2", name: "Build an AI Chatbot in a Day", city: "Bangalore", area: "Koramangala Tech Hub (sample venue)", price: 1999, capacity: 30, left: 7, days: "1 day", schedule: "Sat 21 Nov 2026 · 9:30 AM – 6:00 PM", instructor: "Rahul Iyer (sample)", level: "Beginner",
+    description: "Go from zero to a working FAQ chatbot with a no-code builder and a simple API, then deploy it to a free web page.", agenda: ["Chatbot basics & use cases", "Designing conversations", "Connecting a knowledge base", "Deploy & demo"] },
+  { id: "w3", name: "AI for Biotech", city: "Kochi", area: "Kerala Startup Mission, Kalamassery (sample venue)", price: 3499, capacity: 25, left: 9, days: "2 days", schedule: "Fri 27 Nov – Sat 28 Nov 2026 · 10:00 AM – 4:30 PM", instructor: "Dr. Meera Nair (sample)", level: "Intermediate",
+    description: "How machine learning is used in protein structure, drug discovery and lab data analysis — with guided notebooks.", agenda: ["ML in life sciences overview", "Protein structure tools", "Lab data with Python", "Case studies & Q&A"] },
+  { id: "w4", name: "Generative AI for Creators", city: "Bangalore", area: "Indiranagar Studio (sample venue)", price: 1499, capacity: 50, left: 22, days: "1 day", schedule: "Sun 29 Nov 2026 · 11:00 AM – 5:00 PM", instructor: "Kavya Rao (sample)", level: "All levels",
+    description: "Make images, short videos, music and captions with generative AI tools — plus copyright and ethics basics for creators.", agenda: ["Image generation workflows", "AI video & voice", "Captions & scripts", "Ethics, rights & disclosure"] },
+  { id: "w5", name: "LLM Apps with Python", city: "Bangalore", area: "HSR Layout Co-work (sample venue)", price: 3999, capacity: 30, left: 4, days: "2 days", schedule: "Sat 5 Dec – Sun 6 Dec 2026 · 10:00 AM – 6:00 PM", instructor: "Vikram Shetty (sample)", level: "Intermediate",
+    description: "Build retrieval-augmented (RAG) apps in Python: embeddings, vector search, tool calling and a simple web UI.", agenda: ["Python + LLM API setup", "Embeddings & vector search", "RAG pipeline", "Tool calling & UI", "Deploy for free"] },
+  { id: "w6", name: "AI Data Visualization", city: "Kochi", area: "Marine Drive Learning Centre (sample venue)", price: 1799, capacity: 35, left: 18, days: "1 day", schedule: "Sat 12 Dec 2026 · 10:00 AM – 5:00 PM", instructor: "Joseph Thomas (sample)", level: "Beginner",
+    description: "Turn spreadsheets into clear charts and dashboards using AI assistants, Python and free BI tools.", agenda: ["Cleaning data with AI help", "Choosing the right chart", "Dashboards with free tools", "Storytelling with data"] },
+  { id: "w7", name: "AI Agents & Automation", city: "Bangalore", area: "Whitefield Innovation Park (sample venue)", price: 2999, capacity: 40, left: 15, days: "1 day", schedule: "Sat 19 Dec 2026 · 9:30 AM – 5:30 PM", instructor: "Sneha Kulkarni (sample)", level: "Intermediate",
+    description: "Automate everyday work with AI agents: email triage, report drafting and multi-step workflows, safely.", agenda: ["What agents can (and can't) do", "Workflow design", "Tools & guardrails", "Build your first agent"] },
+  { id: "w8", name: "AI for Small Business", city: "Kochi", area: "Edappally Business Centre (sample venue)", price: 999, capacity: 60, left: 31, days: "Half day", schedule: "Sun 20 Dec 2026 · 2:00 PM – 6:00 PM", instructor: "Fathima Rasheed (sample)", level: "All levels",
+    description: "Practical AI for shops and startups: marketing posts, customer replies, invoices and simple forecasts.", agenda: ["AI for marketing", "Customer chat replies", "Docs & invoices", "Simple sales forecasts"] }
 ];
 
 /* LIVE IN API layer — one interface, swappable providers. No keys, no paid services.
@@ -602,7 +637,7 @@ const D = window.LIVEIN_DATA, $ = s => document.querySelector(s), app = $('#app'
 const MEM = {}; const ls = (k, v) => { try { if (v === undefined) return JSON.parse(localStorage.getItem('livein_' + k) || 'null'); localStorage.setItem('livein_' + k, JSON.stringify(v)); } catch (e) { if (v === undefined) return MEM[k] === undefined ? null : MEM[k]; MEM[k] = v; } };
 const S = { idx: ls('idx') || 0, history: [], matches: ls('matches') || [], chats: ls('chats') || {}, city: 'Bangalore', filter: null, q: '', blocked: ls('blocked') || [], supers: ls('supers') || [], unmatched: ls('unmatched') || [], profile: ls('profile') || {}, cine: { city: 'Kochi', day: 0, theatre: null, time: null, qty: 2 }, ticket: null,
   ho: { city: 'Kochi', inDate: null, nights: 1, guests: 2 }, stay: null, set: { spotUntil: null, snoozeUntil: null, incognito: false, spotlight: false, hideName: false, loc: null, autoplay: 'On Wi-Fi only', dateMore: false, accountName: '', conn: [], email: '', twofa: false, online: true, receipts: true, hideAge: false, nMatch: true, nMsg: true, nBook: true, nPromo: false, discover: true, dcity: 'Both', ageMin: 21, ageMax: 35, motion: false, dataSaver: false, ...(ls('set') || {}) },
- tbl: { city: 'Kochi', cz: null, day: 0, slot: null, guests: 2, rid: null }, prefs: ls('prefs') || { lookingFor: 'Co-living', budget: 16000, city: 'Bangalore', habits: 'Early riser, tidy' } };
+ ws: { city: 'All', qty: 1 }, wsBooked: ls('wsBooked') || {}, wsTicket: null, tbl: { city: 'Kochi', cz: null, day: 0, slot: null, guests: 2, rid: null }, prefs: ls('prefs') || { lookingFor: 'Co-living', budget: 16000, city: 'Bangalore', habits: 'Early riser, tidy' } };
 const save = () => { ls('idx', S.idx); ls('matches', S.matches); ls('chats', S.chats); ls('blocked', S.blocked); ls('supers', S.supers); ls('unmatched', S.unmatched); };
 const P = id => D.people.find(p => p.id === id);
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -638,6 +673,9 @@ const I = {
   heartS: sv('<path d="M12 20s-7-4.4-9.2-8.6C1.4 8.6 3 5 6.4 5c2 0 4.4 1.4 5.6 3.4C13.2 6.4 15.6 5 17.6 5 21 5 22.6 8.6 21.2 11.4 19 15.6 12 20 12 20z"/>'),
   gear: sv('<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/>'),
   hotel: sv('<path d="M4 21V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v16M16 9h3a1 1 0 0 1 1 1v11M2 21h20"/><path d="M8 7h1M11 7h1M8 11h1M11 11h1M8 15h1M11 15h1"/>'),
+  ticket: sv('<path d="M3 8a2 2 0 0 0 2-2h14a2 2 0 0 0 2 2v2a2 2 0 0 0 0 4v2a2 2 0 0 0-2 2H5a2 2 0 0 0-2-2v-2a2 2 0 0 0 0-4z"/><path d="M14 6v12" stroke-dasharray="2 2"/>'),
+  people: sv('<circle cx="9" cy="8" r="3.2"/><path d="M3 20c.8-3.6 3.2-5.4 6-5.4s5.2 1.8 6 5.4"/><circle cx="17" cy="9" r="2.6"/><path d="M16.5 14.6c2.3.2 3.9 1.8 4.5 4.6"/>'),
+  cal: sv('<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>'),
   dine: sv('<path d="M7 3v8M5 3v5a2 2 0 0 0 4 0V3M7 11v10"/><path d="M17 21V3c-2 1-3 4-3 8h3"/>'),
   film: sv('<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 4v16M17 4v16M3 9h4M3 15h4M17 9h4M17 15h4"/>'),
   pin: sv('<path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/>'),
@@ -664,8 +702,8 @@ if (!S.chats.arjun) S.chats.arjun = [
   { me: 0, t: "Same here! Let's talk more and see if we're a good fit. Would love to know your ideal living setup.", at: "10:32 AM" }];
 if (!S.matches.includes('arjun')) S.matches.push('arjun');
 
-const NAV = [['dining', 'dine', 'Dining'], ['chats', 'chat', 'Chat'], ['swipe', 'heart', 'Match'], ['cinema', 'film', 'Cinema'], ['me', 'user', 'Profile']];
-const TAB = { swipe: 'swipe', profile: 'swipe', matches: 'swipe', me: 'me', prefs: 'me', settings: 'me', edit: 'me', notifs: 'me', notif: 'me', addemail: 'me', connection: 'me', autoplay: 'me', legal: 'me', help: 'me', secpriv: 'me', location: 'me',  chats: 'chats', chat: 'chats', dining: 'dining', rest: 'dining', table: 'dining', hotels: 'me', hotel: 'me', stay: 'me', cinema: 'cinema', movie: 'cinema', ticket: 'cinema' };
+const NAV = [['aitix', 'ticket', 'AI ticket'], ['chats', 'chat', 'Chat'], ['swipe', 'heart', 'Match'], ['hangout', 'people', 'Hangout'], ['me', 'user', 'Profile']];
+const TAB = { swipe: 'swipe', profile: 'swipe', matches: 'swipe', me: 'me', prefs: 'me', settings: 'me', edit: 'me', notifs: 'me', notif: 'me', addemail: 'me', connection: 'me', autoplay: 'me', legal: 'me', help: 'me', secpriv: 'me', location: 'me',  chats: 'chats', chat: 'chats', aitix: 'aitix', ws: 'aitix', wsticket: 'aitix', hangout: 'hangout', dining: 'hangout', rest: 'hangout', table: 'hangout', hotels: 'me', hotel: 'me', stay: 'me', cinema: 'hangout', movie: 'hangout', ticket: 'hangout' };
 const nav = active => $('#nav').innerHTML = NAV.map(([h, i, l]) => `<a href="#${h}" class="${h === active ? 'on' : ''}${h === 'swipe' ? ' center' : ''}" aria-current="${h === active ? 'page' : 'false'}"><em>${I[i]}</em><span>${l}</span></a>`).join('');
 const GSYM = { 'Man': '♂', 'Woman': '♀', 'Trans woman': '⚧', 'Trans man': '⚧', 'Non-binary': '⚲' };
 const idPill = p => `<span class="g">${GSYM[p.gender] || '⚲'} ${esc(p.gender)} · ${esc(p.orientation)}</span>`;
@@ -677,6 +715,16 @@ const GR = [['#ff7aa2', '#7c3aed'], ['#0ea5e9', '#6d28d9'], ['#f97316', '#be185d
 const gr = (o, i = 0) => o.grad || GR[([...String(o.id || o.name)].reduce((x, c) => x + c.charCodeAt(0), 0) + i) % GR.length];
 const hx = h => h && { ...h, price: +h.price || 0, grad: gr(h), perks: h.perks || [] };
 const rx = r => r && { ...r, price: +r.price || 0, grad: gr(r, 1), cuisine: r.cuisine || 'Restaurant', slots: r.slots || (r.schedule ? String(r.schedule).split(',').map(x => x.trim()).filter(Boolean) : ['12:30 PM', '1:30 PM', '7:00 PM', '8:00 PM', '9:00 PM']) };
+const wx = w => w && { ...w, price: +w.price || 0, capacity: +w.capacity || 0, grad: w.grad || [['#7c3aed', '#0ea5e9'], ['#0ea5e9', '#22c55e'], ['#a35cf0', '#ff7aa2'], ['#f97316', '#7c3aed']][hsh(w.id || w.name) % 4],
+  agenda: Array.isArray(w.agenda) && w.agenda.length ? w.agenda : ['Welcome & setup', 'Core concepts', 'Hands-on lab', 'Q&A and next steps'],
+  left: Math.max(0, (w.left != null && w.left !== '' ? +w.left : +w.capacity || 0) - ((S.wsBooked || {})[w.id] || 0)) };
+function confirmWs(w) { const q = S.ws.qty, order = { item: 'ai-workshop', id: w.id, name: w.name, qty: q, total: w.price * q };
+  modal(`<span class="mic-ic tk">${I.ticket}</span><h3>Confirm booking</h3><div class="tb sum"><p class="w"><small>Workshop</small><b>${esc(w.name)}</b></p><p class="w"><small>Dates</small><b>${esc(w.schedule)}</b></p><p class="w"><small>Venue</small><b>${esc(w.area ? w.area + ', ' : '')}${esc(w.city)}</b></p>
+    <p><small>Tickets</small><b>${q} × ₹${w.price.toLocaleString('en-IN')}</b></p><p><small>Total</small><b>₹${order.total.toLocaleString('en-IN')}</b></p></div>
+    <p class="paynote">Payment coming soon — demo. No money is charged.</p><button class="btn pill" data-a="ok" id="wcfm">Confirm booking</button><button class="btn pill dark" data-a="no">Cancel</button>`, () => {
+    processPayment(order).then(r => { if (!r.ok) return toast('Payment failed (demo)'); S.wsBooked[w.id] = (S.wsBooked[w.id] || 0) + q; ls('wsBooked', S.wsBooked);
+      S.wsTicket = { w, qty: q, total: order.total, payRef: r.ref, code: 'AIT-' + Math.random().toString(36).slice(2, 8).toUpperCase() }; location.hash = '#wsticket'; }); });
+}
 // ---- live data glue (api.js): lazy per tab, re-render on SWR update, skeleton / retry / fallback ----
 let TIMERS = [], UNSUB = [];
 const every = (f, ms) => TIMERS.push(setInterval(f, ms));
@@ -829,7 +877,7 @@ const R = {
   cinema() {
     const C = S.cine, days = Array.from({ length: 7 }, (_, i) => { const d = new Date(); d.setDate(d.getDate() + i); return d; });
     const fmt = d => ({ w: d.toLocaleDateString('en-US', { weekday: 'short' }), n: d.getDate(), m: d.toLocaleDateString('en-US', { month: 'short' }) });
-    return [`<div class="ttl"><h2>Cinema</h2><p>Movie dates — plan a cosy movie night for two.</p></div>
+    return [`<div class="chdr ctr hgb"><a href="#hangout" aria-label="Back to Hangout">${I.back}</a><h3>Cinema</h3><span style="width:24px"></span></div><div class="ttl hgt"><p>Movie dates — plan a cosy movie night for two.</p></div>
     <div class="search">${I.pin}<select id="ccity" aria-label="City" style="flex:1;color:#fff;font-size:15px">${['Kochi', 'Bangalore'].map(c => `<option ${c === C.city ? 'selected' : ''}>${c}</option>`).join('')}</select></div>
     <div class="dchips">${days.map((d, i) => { const f = fmt(d); return `<button class="dchip ${i === C.day ? 'on' : ''}" data-d="${i}"><small>${i ? f.w : 'Today'}</small><b>${f.n}</b><small>${f.m}</small></button>`; }).join('')}</div>
     <p class="note" style="text-align:left;margin:0 0 12px">SAMPLE listings · made-up titles &amp; theatres · demo only</p>
@@ -886,10 +934,57 @@ const R = {
     <div class="tcut"></div><p class="tnote">Demo confirmation — no payment was taken and no real seats were booked.</p></div>
     <a class="btn pill" href="#cinema">Book tickets</a><a class="btn pill dark" href="#cinema">Back to movies</a>`, 'cinema'];
   },
+  hangout() {
+    return [`<div class="ttl"><h2>Hangout</h2><p>Plan a date — a movie night or a table for two.</p></div>
+    <a class="hgo hg-cin" href="#cinema"><span class="hgi">${I.film}</span><b>Cinema</b><small>Movies, showtimes &amp; live seat map</small><em>›</em></a>
+    <a class="hgo hg-din" href="#dining"><span class="hgi">${I.dine}</span><b>Dining table reservation</b><small>Restaurants, time slots &amp; guests</small><em>›</em></a>
+    <p class="note">Demo only — no real booking or payment.</p>`, 'hangout'];
+  },
+  aitix() {
+    const W = S.ws, all = (D.workshops || []).map(wx), list = all.filter(w => W.city === 'All' || w.city === W.city);
+    return [`<div class="ttl"><h2>AI ticket</h2><p>Upcoming paid AI workshops — book your seat.</p></div>
+    <div class="nchips">${['All', 'Kochi', 'Bangalore'].map(c => `<button class="chip ${W.city === c ? 'on' : ''}" data-wc="${c}">${c}</button>`).join('')}</div>
+    <p class="note" style="text-align:left;margin:8px 0 10px">SAMPLE workshops · made-up events, instructors &amp; prices · demo booking only</p>
+    ${list.map(w => `<a class="htl wsc" href="#ws/${esc(w.id)}"><div class="hpic" style="background:linear-gradient(140deg,${w.grad[0]},${w.grad[1]})"><span class="ptag">SAMPLE</span>${I.ticket}</div><div class="hi"><b>${esc(w.name)}</b>
+      <small class="wr">${I.pin}${esc(w.area ? w.area + ', ' : '')}${esc(w.city)}</small><small class="wr">${I.cal}${esc(w.schedule)}${w.days ? ' · ' + esc(w.days) : ''}</small>
+      <div class="wp"><b>₹${w.price.toLocaleString('en-IN')}</b><span class="${w.left <= 5 ? 'low' : ''}">${w.left ? w.left + ' seats left' : 'Sold out'}</span></div></div></a>`).join('') || '<p class="note">No workshops for this city.</p>'}`, 'aitix', () => {
+      document.querySelectorAll('[data-wc]').forEach(b => b.onclick = () => { W.city = b.dataset.wc; render(); });
+    }];
+  },
+  ws(id) {
+    const W = S.ws, w = (D.workshops || []).map(wx).find(x => x.id === id); if (!w) return R.aitix();
+    if (W.id !== id) { W.id = id; W.qty = 1; }
+    return [`<div class="chdr ctr"><a href="#aitix" aria-label="Back">${I.back}</a><h3>Workshop</h3><span style="width:24px"></span></div>
+    <div class="poster big" style="background:linear-gradient(150deg,${w.grad[0]},${w.grad[1]})"><span class="ptag">SAMPLE WORKSHOP${w.level ? ' · ' + esc(w.level).toUpperCase() : ''}</span><b>${esc(w.name)}</b><small>${esc(w.city)}${w.days ? ' · ' + esc(w.days) : ''}</small></div>
+    <p class="mrow">${I.cal}${esc(w.schedule)}</p><p class="mrow">${I.pin}${esc(w.area ? w.area + ', ' : '')}${esc(w.city)}</p>
+    <p class="mrow">${I.user}Instructor: ${esc(w.instructor || 'To be announced')}</p><p class="mrow">${I.seat}${w.left ? `${w.left} of ${w.capacity} seats left` : 'Sold out'}</p>
+    ${w.description ? `<h4 class="sh" style="margin-top:18px">About</h4><p class="about">${esc(w.description)}</p>` : ''}
+    <h4 class="sh" style="margin-top:18px">Agenda</h4><ol class="agenda">${w.agenda.map(x => `<li>${esc(x)}</li>`).join('')}</ol>
+    <div class="wprice"><div><span>Price per ticket</span><b>₹${w.price.toLocaleString('en-IN')}</b></div><button class="btn pill" id="wbook" ${w.left ? '' : 'disabled'}>${w.left ? 'Book' : 'Sold out'}</button></div>
+    <p class="note">Demo only — no real booking or payment.</p>`, 'aitix', () => {
+      const b = $('#wbook'); if (!w.left) return;
+      b.onclick = () => { const max = Math.min(10, w.left); W.qty = Math.min(Math.max(1, W.qty), max);
+        const tot = () => '₹' + (w.price * W.qty).toLocaleString('en-IN');
+        const sm = modal(`<span class="mic-ic tk">${I.ticket}</span><h3>How many tickets?</h3><p>${esc(w.name)} · ₹${w.price.toLocaleString('en-IN')} each</p>
+          <div class="seats">${I.ticket}<span>Tickets</span><div class="step"><button type="button" id="wqm" aria-label="Fewer tickets">−</button><b id="wqn" aria-live="polite">${W.qty}</b><button type="button" id="wqp" aria-label="More tickets">+</button></div></div>
+          <p class="note" id="wqt" style="margin-top:-6px">Max ${max} per booking</p><button class="btn pill" data-a="ok" id="wcont">Continue · ${tot()}</button><button class="btn pill dark" data-a="no">Cancel</button>`, () => confirmWs(w));
+        const upd = () => { sm.querySelector('#wqn').textContent = W.qty; sm.querySelector('#wqm').disabled = W.qty <= 1; sm.querySelector('#wqp').disabled = W.qty >= max; sm.querySelector('#wcont').textContent = 'Continue · ' + tot(); };
+        sm.querySelector('#wqm').onclick = () => { W.qty = Math.max(1, W.qty - 1); upd(); }; sm.querySelector('#wqp').onclick = () => { W.qty = Math.min(max, W.qty + 1); upd(); }; upd(); };
+    }];
+  },
+  wsticket() {
+    const t = S.wsTicket; if (!t) return R.aitix();
+    return [`<div class="chdr ctr"><a href="#aitix" aria-label="Back">${I.back}</a><h3>Booking confirmed</h3><span style="width:24px"></span></div>
+    <div class="ticket"><div class="poster" style="background:linear-gradient(150deg,${t.w.grad[0]},${t.w.grad[1]})"><span class="ptag">DEMO TICKET</span><b>${esc(t.w.name)}</b></div>
+    <div class="tb"><p class="w"><small>Dates</small><b>${esc(t.w.schedule)}</b></p><p class="w"><small>Venue</small><b>${esc(t.w.area ? t.w.area + ', ' : '')}${esc(t.w.city)}</b></p>
+    <p><small>Tickets</small><b>${t.qty} × ₹${t.w.price.toLocaleString('en-IN')}</b></p><p><small>Total</small><b>₹${t.total.toLocaleString('en-IN')}</b></p><p class="w"><small>Ticket code</small><b class="tcode">${t.code}</b></p></div>
+    <div class="tcut"></div><p class="tnote">Demo confirmation — no payment was taken and no real seat was booked.</p></div>
+    <a class="btn pill dark" href="#aitix">Back to AI workshops</a>`, 'aitix'];
+  },
   dining() {
     const T = S.tbl, RL = restList(T.city), all = RL.items, cz = [...new Set(all.map(r => r.cuisine))];
     const qq = (T.q || '').toLowerCase(), list = all.filter(r => (!T.cz || r.cuisine === T.cz) && (!qq || (r.name + ' ' + r.area + ' ' + r.cuisine).toLowerCase().includes(qq)));
-    return [`<div class="ttl"><h2>Dining</h2><p>Find a table for your next date.</p></div>
+    return [`<div class="chdr ctr hgb"><a href="#hangout" aria-label="Back to Hangout">${I.back}</a><h3>Dining table reservation</h3><span style="width:24px"></span></div><div class="ttl hgt"><p>Find a table for your next date.</p></div>
     <div class="search">${I.pin}<select id="dcity" aria-label="City" style="flex:1;color:#fff;font-size:15px">${['Kochi', 'Bangalore'].map(c => `<option ${c === T.city ? 'selected' : ''}>${c}</option>`).join('')}</select></div>
     <div class="nchips">${['All', ...cz].map(c => `<button class="chip ${(T.cz || 'All') === c ? 'on' : ''}" data-cz="${esc(c)}">${esc(c)}</button>`).join('')}</div>
     <div class="search" style="margin-top:10px">${I.search}<input id="dq" placeholder="Search restaurants" value="${esc(T.q || '')}" aria-label="Search restaurants"></div>
@@ -1091,7 +1186,7 @@ const R = {
       document.querySelectorAll('[data-doc]').forEach(b => b.onclick = () => { const d = docs.find(x => x[0] === b.dataset.doc); modal(`<h3>${d[1]}</h3><div class="sinfo"><p>${d[2]}</p></div><button class="btn pill" data-a="ok">Close</button>`, () => {}); })];
   },
   help() {
-    const qa = [['faq', 'FAQ', '<p><b>How do matches work?</b> Like someone; if they like you back, you match and can chat.</p><p><b>Are bookings real?</b> No — cinema, dining and hotel bookings are demo only. Nothing is charged.</p><p><b>What is Spotlight?</b> Your profile is shown first for 24 hours. Demo payment only.</p>'], ['safety', 'Safety tips', '<p>Meet in public first, tell a friend your plans, never share OTPs or bank details, and use Report or Block if something feels off.</p>'], ['contact', 'Contact support', '<p>Support isn’t connected in this demo. A real app would open chat or email here.</p>']];
+    const qa = [['faq', 'FAQ', '<p><b>How do matches work?</b> Like someone; if they like you back, you match and can chat.</p><p><b>Are bookings real?</b> No — AI workshop tickets, cinema and dining-table bookings are demo only. Nothing is charged.</p><p><b>What is Spotlight?</b> Your profile is shown first for 24 hours. Demo payment only.</p>'], ['safety', 'Safety tips', '<p>Meet in public first, tell a friend your plans, never share OTPs or bank details, and use Report or Block if something feels off.</p>'], ['contact', 'Contact support', '<p>Support isn’t connected in this demo. A real app would open chat or email here.</p>']];
     return [`<div class="chdr ctr"><a href="#settings" aria-label="Back">${I.back}</a><h3>Get help</h3><span style="width:24px"></span></div>
     <div class="scard" style="margin-top:14px">${qa.map(([k, t]) => `<button type="button" class="srow" data-qa="${k}"><span><b>${t}</b></span><em>›</em></button>`).join('')}</div>`, 'me', () =>
       document.querySelectorAll('[data-qa]').forEach(b => b.onclick = () => { const d = qa.find(x => x[0] === b.dataset.qa); modal(`<h3>${d[1]}</h3><div class="sinfo">${d[2]}</div><button class="btn pill" data-a="ok">Close</button>`, () => {}); })];
@@ -1317,6 +1412,7 @@ function applyData(j) {
   D.hotels = j.entries.filter(e => e.category === 'Hotel');
   if (Array.isArray(j.movies) && j.movies.length) D.movies = j.movies;
   const rs = j.entries.filter(e => e.category === 'Restaurant'); if (rs.length) D.restaurants = rs;
+  const wsx = j.entries.filter(e => e.category === 'AI Workshop'); if (wsx.length) D.workshops = wsx;
   return true;
 }
 if (location.protocol.startsWith('http')) fetch('./data.json?t=' + Date.now(), { cache: 'no-store' }).then(r => r.ok ? r.json() : null).then(j => { if (applyData(j)) render(); }).catch(() => {});

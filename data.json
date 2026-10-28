@@ -1,5 +1,5 @@
 {
- "note": "LIVE IN content. SAMPLE data. Edited via /admin/. Cinema = theatres (price per seat, capacity = seats, schedule = comma-separated showtimes). Hotel = stays (price per night, capacity = rooms).",
+ "note": "LIVE IN content. SAMPLE data. Edited via /admin/. Cinema = theatres (price per seat, capacity = seats, schedule = comma-separated showtimes). Hotel = stays (price per night, capacity = rooms). AI Workshop = AI ticket tab (price per ticket, capacity = total seats, left = seats left, schedule = dates & times, area = venue).",
  "updated": "2026-10-12T19:46:52.065Z",
  "entries": [
   {
@@ -295,6 +295,191 @@
    "rating": 4.7,
    "description": "Sample restaurant.",
    "coupleFriendly": true
+  },
+  {
+   "id": "w1",
+   "category": "AI Workshop",
+   "name": "Prompt Engineering Bootcamp",
+   "city": "Kochi",
+   "area": "Infopark Phase 1 (sample venue)",
+   "price": 2499,
+   "capacity": 40,
+   "left": 12,
+   "days": "2 days",
+   "schedule": "Sat 14 Nov – Sun 15 Nov 2026 · 10:00 AM – 5:00 PM",
+   "instructor": "Anjali Menon (sample)",
+   "level": "Beginner",
+   "description": "Hands-on bootcamp on writing reliable prompts for ChatGPT-style assistants: roles, examples, structured outputs and evaluation.",
+   "agenda": [
+    "Day 1 · How LLMs read prompts",
+    "Day 1 · Few-shot & structured output",
+    "Day 2 · Prompt testing & evals",
+    "Day 2 · Capstone: your own prompt library"
+   ],
+   "rating": null,
+   "coupleFriendly": false
+  },
+  {
+   "id": "w2",
+   "category": "AI Workshop",
+   "name": "Build an AI Chatbot in a Day",
+   "city": "Bangalore",
+   "area": "Koramangala Tech Hub (sample venue)",
+   "price": 1999,
+   "capacity": 30,
+   "left": 7,
+   "days": "1 day",
+   "schedule": "Sat 21 Nov 2026 · 9:30 AM – 6:00 PM",
+   "instructor": "Rahul Iyer (sample)",
+   "level": "Beginner",
+   "description": "Go from zero to a working FAQ chatbot with a no-code builder and a simple API, then deploy it to a free web page.",
+   "agenda": [
+    "Chatbot basics & use cases",
+    "Designing conversations",
+    "Connecting a knowledge base",
+    "Deploy & demo"
+   ],
+   "rating": null,
+   "coupleFriendly": false
+  },
+  {
+   "id": "w3",
+   "category": "AI Workshop",
+   "name": "AI for Biotech",
+   "city": "Kochi",
+   "area": "Kerala Startup Mission, Kalamassery (sample venue)",
+   "price": 3499,
+   "capacity": 25,
+   "left": 9,
+   "days": "2 days",
+   "schedule": "Fri 27 Nov – Sat 28 Nov 2026 · 10:00 AM – 4:30 PM",
+   "instructor": "Dr. Meera Nair (sample)",
+   "level": "Intermediate",
+   "description": "How machine learning is used in protein structure, drug discovery and lab data analysis — with guided notebooks.",
+   "agenda": [
+    "ML in life sciences overview",
+    "Protein structure tools",
+    "Lab data with Python",
+    "Case studies & Q&A"
+   ],
+   "rating": null,
+   "coupleFriendly": false
+  },
+  {
+   "id": "w4",
+   "category": "AI Workshop",
+   "name": "Generative AI for Creators",
+   "city": "Bangalore",
+   "area": "Indiranagar Studio (sample venue)",
+   "price": 1499,
+   "capacity": 50,
+   "left": 22,
+   "days": "1 day",
+   "schedule": "Sun 29 Nov 2026 · 11:00 AM – 5:00 PM",
+   "instructor": "Kavya Rao (sample)",
+   "level": "All levels",
+   "description": "Make images, short videos, music and captions with generative AI tools — plus copyright and ethics basics for creators.",
+   "agenda": [
+    "Image generation workflows",
+    "AI video & voice",
+    "Captions & scripts",
+    "Ethics, rights & disclosure"
+   ],
+   "rating": null,
+   "coupleFriendly": false
+  },
+  {
+   "id": "w5",
+   "category": "AI Workshop",
+   "name": "LLM Apps with Python",
+   "city": "Bangalore",
+   "area": "HSR Layout Co-work (sample venue)",
+   "price": 3999,
+   "capacity": 30,
+   "left": 4,
+   "days": "2 days",
+   "schedule": "Sat 5 Dec – Sun 6 Dec 2026 · 10:00 AM – 6:00 PM",
+   "instructor": "Vikram Shetty (sample)",
+   "level": "Intermediate",
+   "description": "Build retrieval-augmented (RAG) apps in Python: embeddings, vector search, tool calling and a simple web UI.",
+   "agenda": [
+    "Python + LLM API setup",
+    "Embeddings & vector search",
+    "RAG pipeline",
+    "Tool calling & UI",
+    "Deploy for free"
+   ],
+   "rating": null,
+   "coupleFriendly": false
+  },
+  {
+   "id": "w6",
+   "category": "AI Workshop",
+   "name": "AI Data Visualization",
+   "city": "Kochi",
+   "area": "Marine Drive Learning Centre (sample venue)",
+   "price": 1799,
+   "capacity": 35,
+   "left": 18,
+   "days": "1 day",
+   "schedule": "Sat 12 Dec 2026 · 10:00 AM – 5:00 PM",
+   "instructor": "Joseph Thomas (sample)",
+   "level": "Beginner",
+   "description": "Turn spreadsheets into clear charts and dashboards using AI assistants, Python and free BI tools.",
+   "agenda": [
+    "Cleaning data with AI help",
+    "Choosing the right chart",
+    "Dashboards with free tools",
+    "Storytelling with data"
+   ],
+   "rating": null,
+   "coupleFriendly": false
+  },
+  {
+   "id": "w7",
+   "category": "AI Workshop",
+   "name": "AI Agents & Automation",
+   "city": "Bangalore",
+   "area": "Whitefield Innovation Park (sample venue)",
+   "price": 2999,
+   "capacity": 40,
+   "left": 15,
+   "days": "1 day",
+   "schedule": "Sat 19 Dec 2026 · 9:30 AM – 5:30 PM",
+   "instructor": "Sneha Kulkarni (sample)",
+   "level": "Intermediate",
+   "description": "Automate everyday work with AI agents: email triage, report drafting and multi-step workflows, safely.",
+   "agenda": [
+    "What agents can (and can't) do",
+    "Workflow design",
+    "Tools & guardrails",
+    "Build your first agent"
+   ],
+   "rating": null,
+   "coupleFriendly": false
+  },
+  {
+   "id": "w8",
+   "category": "AI Workshop",
+   "name": "AI for Small Business",
+   "city": "Kochi",
+   "area": "Edappally Business Centre (sample venue)",
+   "price": 999,
+   "capacity": 60,
+   "left": 31,
+   "days": "Half day",
+   "schedule": "Sun 20 Dec 2026 · 2:00 PM – 6:00 PM",
+   "instructor": "Fathima Rasheed (sample)",
+   "level": "All levels",
+   "description": "Practical AI for shops and startups: marketing posts, customer replies, invoices and simple forecasts.",
+   "agenda": [
+    "AI for marketing",
+    "Customer chat replies",
+    "Docs & invoices",
+    "Simple sales forecasts"
+   ],
+   "rating": null,
+   "coupleFriendly": false
   }
  ],
  "movies": [
