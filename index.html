@@ -1108,13 +1108,12 @@ const R = {
     <a class="btn pill dark" href="#hotels">Back to hotels</a>`, 'me'];
   },
   me() {
-    const pf = S.prefs, m = ME();
+    const m = ME();
     return [`<div class="mehdr"><h2>Profile</h2></div>
     <div class="meh"><span class="spw ${spotOn() ? 'on' : ''}"><img class="ra" src="${m.photo}" alt="${esc(m.name)}"></span>${idTags(m, 'c')}<h2>${esc(S.set.hideName ? m.name.trim()[0] + '.' : m.name)}, ${esc(m.age)} ${I.verified}</h2>${loveC(m.loves != null ? m.loves : D.me.loves)}${S.set.incognito || S.set.spotlight ? `<p class="small-c">${S.set.incognito ? '🕶️ Incognito on' : ''}${S.set.incognito && S.set.spotlight ? ' · ' : ''}${S.set.spotlight ? '✨ Auto Spotlight on (demo)' : ''}</p>` : ''}<p class="small-c">${esc(m.job)} · ${esc(m.city)}</p></div>
     <div class="row3"><a class="btn pill" href="#edit">Edit profile</a><a class="btn pill dark" href="#settings" id="setb">${I.gear} Settings</a><button type="button" class="btn pill dark" id="spb">✦ Spotlight</button></div>${spotOn() ? `<p class="spcd" id="spcd">Spotlight: ${hhmm(S.set.spotUntil - Date.now())} left</p>` : ''}
     ${m.about ? `<h4 class="sh">About Me</h4><p class="about">${esc(m.about)}</p>` : ''}${m.tags.length ? `<div class="chips">${m.tags.map(t => `<span class="chip">${esc(t)}</span>`).join('')}</div>` : ''}
-    ${m.photos.length ? `<div class="gal">${m.photos.slice(0, 6).map(g => `<img src="${g}" alt="">`).join('')}</div>` : ''}
-    <div class="theatre"><p class="mrow" style="margin:0">${I.home2}Looking for: ${esc(m.lookingFor)}</p>${m.values ? `<p class="mrow">${I.heartS}${esc(m.values)}</p>` : ''}<p class="mrow">${I.bag}Budget: up to ₹${(+pf.budget).toLocaleString('en-IN')}/month</p><p class="mrow">${I.pin}Preferred city: ${esc(pf.city)}</p><p class="mrow">${I.star}${esc(pf.habits)}</p></div>`, 'me', () => { $('#spb').onclick = spotSheet; if (spotOn()) every(() => { const e = $('#spcd'); if (!spotOn()) return render(); if (e) e.textContent = `Spotlight: ${hhmm(S.set.spotUntil - Date.now())} left`; }, 15000); }];
+    ${m.photos.length ? `<div class="gal">${m.photos.slice(0, 6).map(g => `<img src="${g}" alt="">`).join('')}</div>` : ''}`, 'me', () => { $('#spb').onclick = spotSheet; if (spotOn()) every(() => { const e = $('#spcd'); if (!spotOn()) return render(); if (e) e.textContent = `Spotlight: ${hhmm(S.set.spotUntil - Date.now())} left`; }, 15000); }];
   },
   prefs() { setTimeout(() => location.replace('#edit')); return ['']; },
   edit() {
